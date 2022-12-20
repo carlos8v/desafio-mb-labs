@@ -1,0 +1,22 @@
+{
+  "name": "desafio-mb-labs",
+  "version": "0.1.0",
+  "description": "Repositório de desafio da MB Labs",
+  "scripts": {
+    "test": "vitest",
+    "prebuild": "rimraf dist/",
+    "build": "tsc -p tsconfig-build.json",
+    "postbuild": "tscpaths -p tsconfig-build.json -s ./src -o ./dist"
+  },
+  "author": "Carlos Souza <carlos.pessoal@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.11.17",
+    "rimraf": "^2.7.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.1.1",
+    "tscpaths": "^0.0.9",
+    "typescript": "^4.9.4",
+    "vitest": "^0.26.1"
+  }
+}
