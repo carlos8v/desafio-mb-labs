@@ -8,7 +8,7 @@ export type EventModel = {
   description?: string | null
   createdBy: string
   dueDate: Date
-  ticketPrice: Number
+  ticketPrice: number
   completed: boolean
   place?: string | null
   link?: string | null
