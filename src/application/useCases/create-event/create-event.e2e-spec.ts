@@ -1,24 +1,28 @@
 import { randomUUID } from 'crypto'
+import { PrismaClient } from '@prisma/client'
+
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { createEventUseCaseFactory } from './create-event'
 
-import { inMemoryDatabaseFactory } from '@tests/db/inMemoryDatabase'
-import { inMemoryUserRepositoryFactory } from '@tests/db/inMemoryUserRepository'
-import { inMemoryEventRepositoryFactory } from '@tests/db/inMemoryEventRepository'
+import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
+
+import { truncateDatabase } from '@tests/db/truncate'
 
 describe('Create event use case', () => {
-  const inMemoryDatabase = inMemoryDatabaseFactory()
-  const inMemoryUserRepository = inMemoryUserRepositoryFactory(inMemoryDatabase)
-  const inMemoryEventRepository = inMemoryEventRepositoryFactory(inMemoryDatabase)
+  let prisma = new PrismaClient()
+
+  const eventRepositoryFactory = prismaEventRepositoryFactory(prisma)
+  const userRepositoryFactory = prismaUserRepositoryFactory(prisma)
   
   const createEventUseCase = createEventUseCaseFactory({
-    userRepository: inMemoryUserRepository,
-    eventRepository: inMemoryEventRepository
+    userRepository: userRepositoryFactory,
+    eventRepository: eventRepositoryFactory
   })
 
   beforeEach(() => {
-    inMemoryDatabase.truncate()
+    truncateDatabase(prisma)
   })
 
   it('should not be able to create event with nonexistent user', async () => {

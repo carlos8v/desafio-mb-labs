@@ -1,16 +1,22 @@
-import { describe, it, expect } from 'vitest'
+import { PrismaClient } from '@prisma/client'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { createUserUseCaseFactory } from './create-user'
 
-import { inMemoryDatabaseFactory } from '@tests/db/inMemoryDatabase'
-import { inMemoryUserRepositoryFactory } from '@tests/db/inMemoryUserRepository'
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
+
+import { truncateDatabase } from '@tests/db/truncate'
 
 describe('Create event use case', () => {
-  const inMemoryDatabase = inMemoryDatabaseFactory()
-  const inMemoryUserRepository = inMemoryUserRepositoryFactory(inMemoryDatabase)
+  const prisma = new PrismaClient()
+  const prismaUserRepository = prismaUserRepositoryFactory(prisma)
   
   const createUserUseCase = createUserUseCaseFactory({
-    userRepository: inMemoryUserRepository
+    userRepository: prismaUserRepository
+  })
+
+  beforeEach(async () => {
+    await truncateDatabase(prisma)
   })
 
   it('should not be able to create user with duplicated username', async () => {
