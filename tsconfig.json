@@ -10,8 +10,9 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@application/*": ["./src/application"],
-      "@domain/*": ["./src/domain"]
+      "@application/*": ["./src/application/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@tests/*": ["./tests/*"]
     }
   },
   "exclude": ["node_modules"]
