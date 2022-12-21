@@ -19,6 +19,8 @@ model User {
   description   String?
   events        Event[]
   subscriptions Subscription[]
+
+  @@map("users")
 }
 
 model Event {
@@ -35,6 +37,8 @@ model Event {
   link          String?
   createdAt     DateTime       @default(now())
   subscriptions Subscription[]
+
+  @@map("events")
 }
 
 model Subscription {
@@ -45,4 +49,6 @@ model Subscription {
   user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
   ticketPrice Decimal
   createdAt DateTime
+
+  @@map("subscriptions")
 }
