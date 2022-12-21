@@ -10,11 +10,13 @@ export const prismaEventRepositoryFactory: (prisma: PrismaClient) => EventReposi
         id: eventData.id
       },
       create: {
+        id: eventData.id,
         title: eventData.title,
         subtitle: eventData.subtitle,
         description: eventData.description,
         dueDate: eventData.dueDate,
         ticketPrice: eventData.ticketPrice,
+        completed: eventData.completed,
         link: eventData.link,
         place: eventData.place,
         createdBy: eventData.createdBy,
@@ -25,6 +27,7 @@ export const prismaEventRepositoryFactory: (prisma: PrismaClient) => EventReposi
         description: eventData.description,
         dueDate: eventData.dueDate,
         ticketPrice: eventData.ticketPrice,
+        completed: eventData.completed,
         link: eventData.link,
         place: eventData.place,
       }
@@ -35,7 +38,7 @@ export const prismaEventRepositoryFactory: (prisma: PrismaClient) => EventReposi
       where: { id: eventId }
     })
 
-    if (!event) return null
+    if (!event?.id) return null
 
     return loadEventEntity(event)
   }

@@ -16,21 +16,25 @@ export type EventModel = {
 }
 
 type OptionalCreateProps = 'id' | 'createdAt' | 'completed'
-
 export type CreateEventProps = OptionalProps<EventModel, OptionalCreateProps>
 
-export const Event = (eventData: CreateEventProps): EventModel => {
+export const Event = ({
+  completed = false,
+  ...eventData
+}: CreateEventProps): EventModel => {
   if (
-    !eventData?.completed &&
+    !completed &&
     new Date(eventData.dueDate) < new Date()
   ) {
     throw new Error('Cannot create event before current date')
   }
 
+  if (eventData.ticketPrice < 0) throw new Error('Cannot create event with negative ticket price')
+
   return {
     ...eventData,
     id: eventData?.id || randomUUID(),
-    completed: eventData?.completed || false,
+    completed,
     createdAt: eventData?.createdAt || new Date()
   }
 }

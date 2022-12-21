@@ -23,13 +23,13 @@ describe('Create event use case', () => {
     await createUserUseCase({
       name: 'Carlos Souza',
       username: 'carlos8v',
-      password: '123123'
+      password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
     })
 
-    await expect(() => createUserUseCase({
+    await expect(createUserUseCase({
       name: 'Carlos Souza 2',
       username: 'carlos8v',
-      password: '321321'
+      password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
     })).rejects.toThrowError()
   })
 })

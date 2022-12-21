@@ -30,3 +30,18 @@ it('should not be able to create event before current day', () => {
     createdAt
   })).not.toThrowError()
 })
+
+it('should not be able to create event with negative ticketPrice', () => {
+  const mockedUserId = randomUUID()
+
+  const dueDate = new Date()
+  dueDate.setDate(dueDate.getDate() + 1)
+
+  expect(() => Event({
+    title: 'Javascript programmers challenge',
+    subtitle: '1 week programming challenge',
+    createdBy: mockedUserId,
+    dueDate,
+    ticketPrice: -10
+  })).toThrowError()
+})

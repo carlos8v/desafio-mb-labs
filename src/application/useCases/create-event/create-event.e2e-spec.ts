@@ -30,7 +30,7 @@ describe('Create event use case', () => {
     const dueDate = new Date()
     dueDate.setDate(dueDate.getDate() + 1)
 
-    await expect(() => createEventUseCase({
+    await expect(createEventUseCase({
       title: 'Javascript programmers challenge',
       subtitle: '1 week programming challenge',
       createdBy: mockedUserId,

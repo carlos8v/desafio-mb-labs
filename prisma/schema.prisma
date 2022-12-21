@@ -11,26 +11,38 @@ datasource db {
 }
 
 model User {
-  id          String  @id @default(uuid())
-  name        String
-  username    String  @unique
-  password    String
-  thumbnail   String?
-  description String?
-  events      Event[]
+  id            String         @id @default(uuid())
+  name          String
+  username      String         @unique
+  password      String
+  thumbnail     String?
+  description   String?
+  events        Event[]
+  subscriptions Subscription[]
 }
 
 model Event {
-  id          String   @id @default(uuid())
-  title       String
-  subtitle    String
-  description String?
-  createdBy   String
-  user        User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  dueDate     DateTime
+  id            String         @id @default(uuid())
+  title         String
+  subtitle      String
+  description   String?
+  createdBy     String
+  user          User           @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  dueDate       DateTime
+  ticketPrice   Decimal
+  completed     Boolean        @default(false)
+  place         String?
+  link          String?
+  createdAt     DateTime       @default(now())
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Restrict)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
   ticketPrice Decimal
-  completed   Boolean  @default(false)
-  place       String?
-  link        String?
-  createdAt   DateTime  @default(now())
+  createdAt DateTime
 }
