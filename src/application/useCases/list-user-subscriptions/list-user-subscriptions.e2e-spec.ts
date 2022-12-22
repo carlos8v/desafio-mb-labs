@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 
 import { listUserSubscriptionsUseCaseFactory } from './list-user-subscriptions'
 
@@ -21,7 +21,7 @@ describe('List user subscriptions use case', () => {
     subscriptionRepository: prismaSubscriptionRepository
   })
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncateDatabase(prisma)
     await prisma.user.create({ data: userSeed[0] })
     await prisma.event.createMany({ data: events })

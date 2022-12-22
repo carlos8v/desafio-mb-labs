@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 
 import { createUserUseCaseFactory } from './create-user'
 
@@ -15,7 +15,7 @@ describe('Create user use case', () => {
     userRepository: prismaUserRepository
   })
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncateDatabase(prisma)
   })
 

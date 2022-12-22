@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 
 import { listEventsByDateUseCaseFactory } from './list-events-by-date'
 
@@ -19,12 +19,10 @@ describe('List events by date use case', () => {
     eventRepository: prismaEventRepository
   })
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncateDatabase(prisma)
     await prisma.user.create({ data: userSeed[0] })
-    for (const event of eventSeed) {
-      await prismaEventRepository.save(event)
-    }
+    await prisma.event.createMany({ data: eventSeed })
   })
 
   it('should filter events with inclusive date', async () => {

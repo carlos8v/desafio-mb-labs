@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 
 import { findEventByTitleUseCaseFactory } from './find-event-by-title'
 
@@ -21,7 +21,7 @@ describe('Find event by title use case', () => {
     eventRepository: prismaEventRepository
   })
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncateDatabase(prisma)
     await prisma.user.create({ data: user })
     await prisma.event.create({ data: event })

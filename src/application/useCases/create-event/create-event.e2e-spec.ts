@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { PrismaClient } from '@prisma/client'
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 
 import { createEventUseCaseFactory } from './create-event'
 
@@ -22,7 +22,7 @@ describe('Create event use case', () => {
     eventRepository: eventRepositoryFactory
   })
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     truncateDatabase(prisma)
     await userRepositoryFactory.save(userSeed[0])
   })
