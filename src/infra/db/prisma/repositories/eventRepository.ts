@@ -46,6 +46,18 @@ export const prismaEventRepositoryFactory: (prisma: PrismaClient) => EventReposi
 
     return loadEventEntity(event)
   },
+  findManyByTitle: async (title) => {
+    const events = await prisma.event.findMany({
+      where: {
+        title: {
+          contains: title,
+          mode: 'insensitive'
+        }
+      }
+    })
+
+    return events.map((event) => loadEventEntity(event))
+  },
   findByDueDateRange: async (firstDate, secondDate) => {
     const startDate = dayjs(firstDate <= secondDate ? firstDate : secondDate)
       .utc()
