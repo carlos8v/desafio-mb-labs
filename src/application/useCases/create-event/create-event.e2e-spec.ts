@@ -9,6 +9,7 @@ import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/even
 import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
 
 import { truncateDatabase } from '@tests/db/truncate'
+import { userSeed } from '@tests/db/seeds/user.seed'
 
 describe('Create event use case', () => {
   let prisma = new PrismaClient()
@@ -21,8 +22,9 @@ describe('Create event use case', () => {
     eventRepository: eventRepositoryFactory
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     truncateDatabase(prisma)
+    await userRepositoryFactory.save(userSeed[0])
   })
 
   it('should not be able to create event with nonexistent user', async () => {

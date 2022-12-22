@@ -8,39 +8,11 @@ import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userR
 import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
 import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscriptionRepository'
 
-import { User } from '@domain/User'
-import { Event } from '@domain/Event'
-
 import { truncateDatabase } from '@tests/db/truncate'
 
-const dueDate = new Date()
-dueDate.setDate(dueDate.getDate() + 1)
-
-const completedDueDate = new Date()
-completedDueDate.setDate(completedDueDate.getDate() - 1)
-
-const user = User({
-  name: 'Carlos Souza',
-  username: 'carlos8v',
-  password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
-})
-
-const event = Event({
-  title: 'Javascript programmers challenge II',
-  subtitle: '1 week programming challenge',
-  createdBy: user.id,
-  dueDate,
-  ticketPrice: 0
-})
-
-const completedEvent = Event({
-  title: 'Javascript programmers challenge I',
-  subtitle: '1 day programming challenge',
-  createdBy: user.id,
-  dueDate: completedDueDate,
-  completed: true,
-  ticketPrice: 0
-})
+import { userSeed } from '@tests/db/seeds/user.seed'
+import { eventSeed } from '@tests/db/seeds/event.seed'
+const [completedEvent, event] = eventSeed
 
 describe('Subscribe in event use case', () => {
   const prisma = new PrismaClient()
@@ -56,7 +28,7 @@ describe('Subscribe in event use case', () => {
 
   beforeEach(async () => {
     await truncateDatabase(prisma)
-    await prismaUserRepository.save(user)
+    await prismaUserRepository.save(userSeed[0])
     await prismaEventRepository.save(event)
     await prismaEventRepository.save(completedEvent)
   })
@@ -64,7 +36,7 @@ describe('Subscribe in event use case', () => {
   it('should not able to subscribe in event', async () => {
     await expect(subscribeInEventUseCase({
       eventId: event.id,
-      userId: user.id,
+      userId: userSeed[0].id,
       ticketPrice: event.ticketPrice,
     })).resolves.not.toThrowError()
   })
@@ -72,7 +44,7 @@ describe('Subscribe in event use case', () => {
   it('should not be able to subscribe with nonexistent event', async () => {
     await expect(subscribeInEventUseCase({
       eventId: randomUUID(),
-      userId: user.id,
+      userId: userSeed[0].id,
       ticketPrice: event.ticketPrice,
     })).rejects.toThrowError()
   })
@@ -88,7 +60,7 @@ describe('Subscribe in event use case', () => {
   it('should not be able to subscribe in completed event', async () => {
     await expect(subscribeInEventUseCase({
       eventId: completedEvent.id,
-      userId: user.id,
+      userId: userSeed[0].id,
       ticketPrice: completedEvent.ticketPrice,
     })).rejects.toThrowError()
   })
@@ -96,7 +68,7 @@ describe('Subscribe in event use case', () => {
   it('should not be able to subscribe with negative ticket price', async () => {
     await expect(subscribeInEventUseCase({
       eventId: randomUUID(),
-      userId: user.id,
+      userId: userSeed[0].id,
       ticketPrice: -10,
     })).rejects.toThrowError()
   })
