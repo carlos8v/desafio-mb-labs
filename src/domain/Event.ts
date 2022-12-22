@@ -5,17 +5,23 @@ export type EventModel = {
   id: string
   title: string
   subtitle: string
-  description?: string | null
+  description: string | null
   createdBy: string
   dueDate: Date
   ticketPrice: number
   completed: boolean
-  place?: string | null
-  link?: string | null
+  place: string | null
+  link: string | null
   createdAt: Date
 }
 
-type OptionalCreateProps = 'id' | 'createdAt' | 'completed'
+type OptionalCreateProps = 'id' |
+  'description' |
+  'place' |
+  'link' |
+  'createdAt' |
+  'completed'
+
 export type CreateEventProps = OptionalProps<EventModel, OptionalCreateProps>
 
 export const Event = ({
@@ -32,9 +38,16 @@ export const Event = ({
   if (eventData.ticketPrice < 0) throw new Error('Cannot create event with negative ticket price')
 
   return {
-    ...eventData,
     id: eventData?.id || randomUUID(),
+    title: eventData.title,
+    subtitle: eventData.subtitle,
+    description: eventData?.description || null,
+    createdBy: eventData.createdBy,
+    dueDate: eventData.dueDate,
+    ticketPrice: eventData.ticketPrice,
     completed,
+    place: eventData?.place || null,
+    link: eventData?.link || null,
     createdAt: eventData?.createdAt || new Date()
   }
 }

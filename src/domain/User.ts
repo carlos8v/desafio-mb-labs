@@ -7,16 +7,20 @@ export type UserModel = {
   name: string
   username: string
   password: string
-  thumbnail?: string | null
-  description?: string | null
+  thumbnail: string | null
+  description: string | null
 }
 
-type OptionalCreateProps = 'id'
+type OptionalCreateProps = 'id' | 'thumbnail' | 'description'
 export type CreateUserProps = OptionalProps<UserModel, OptionalCreateProps>
 
 export const User = (userData: CreateUserProps): UserModel => ({
-  ...userData,
-  id: userData?.id || randomUUID()
+  id: userData?.id || randomUUID(),
+  name: userData.name,
+  username: userData.username,
+  password: userData.password,
+  thumbnail: userData?.thumbnail || null,
+  description: userData?.description || null,
 })
 
 const saltRound = 10

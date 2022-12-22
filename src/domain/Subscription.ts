@@ -13,6 +13,9 @@ type OptionalCreateProps = 'id'
 export type CreateSubscriptionProps = OptionalProps<SubscriptionModel, OptionalCreateProps>
 
 export const Subscription = (subscriptionData: CreateSubscriptionProps): SubscriptionModel => ({
-  ...subscriptionData,
-  id: subscriptionData?.id || randomUUID()
+  id: subscriptionData?.id || randomUUID(),
+  userId: subscriptionData.userId,
+  eventId: subscriptionData.eventId,
+  ticketPrice: subscriptionData.ticketPrice,
+  createdAt: subscriptionData.createdAt,
 })
