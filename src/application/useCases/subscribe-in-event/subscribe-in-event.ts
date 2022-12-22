@@ -1,4 +1,4 @@
-import { Subscription } from '@domain/Subscriptions'
+import { Subscription } from '@domain/Subscription'
 
 import type { EventRepository } from '@application/interfaces/EventRepository'
 import type { SubscriptionRepository } from '@application/interfaces/SubscriptionRepository'

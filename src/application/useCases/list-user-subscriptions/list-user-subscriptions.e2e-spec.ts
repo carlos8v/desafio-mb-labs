@@ -9,9 +9,9 @@ import { truncateDatabase } from '@tests/db/truncate'
 
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
-import { Subscription } from '@domain/Subscriptions'
+import { Subscription } from '@domain/Subscription'
 
-describe('List events by date use case', () => {
+describe('List user subscriptions use case', () => {
   const [_, ...events] = eventSeed
 
   const prisma = new PrismaClient()
@@ -27,7 +27,7 @@ describe('List events by date use case', () => {
     await prisma.event.createMany({ data: events })
   })
 
-  it('should filter correct event subscriptions', async () => {
+  it('should filter correct user subscriptions', async () => {
     const subscription = Subscription({
       eventId: events[0].id,
       userId: userSeed[0].id,

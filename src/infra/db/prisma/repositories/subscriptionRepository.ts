@@ -2,7 +2,7 @@ import type { PrismaClient } from '@prisma/client'
 import type { SubscriptionRepository } from '@application/interfaces/SubscriptionRepository'
 
 import { loadEventEntity } from '../utils/loadEntity'
-import { Subscription } from '@domain/Subscriptions'
+import { Subscription } from '@domain/Subscription'
 
 export const prismaSubscriptionRepositoryFactory: (prisma: PrismaClient) => SubscriptionRepository = (prisma) => ({
   save: async (subscriptionData) => {
@@ -43,17 +43,14 @@ export const prismaSubscriptionRepositoryFactory: (prisma: PrismaClient) => Subs
       }
     })
 
-    if (!eventWithSubscriptions?.id) return null
-    const { subscriptions, ...event } = eventWithSubscriptions
+    if (!eventWithSubscriptions?.id) return []
 
-    return {
-      event: loadEventEntity(event),
-      subscriptions: subscriptions.map((sub) => Subscription({
-        eventId: sub.eventId,
-        userId: sub.userId,
-        ticketPrice: Number(sub.ticketPrice),
-        createdAt: sub.createdAt
-      }))
-    }
+    return eventWithSubscriptions.subscriptions.map((sub) => Subscription({
+      id: sub.id,
+      eventId: sub.eventId,
+      userId: sub.userId,
+      ticketPrice: Number(sub.ticketPrice),
+      createdAt: sub.createdAt
+    }))
   }
 })
