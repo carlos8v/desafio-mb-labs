@@ -42,7 +42,7 @@ const completedEvent = Event({
   ticketPrice: 0
 })
 
-describe('Create event use case', () => {
+describe('Subscribe in event use case', () => {
   const prisma = new PrismaClient()
   const prismaUserRepository = prismaUserRepositoryFactory(prisma)
   const prismaEventRepository = prismaEventRepositoryFactory(prisma)

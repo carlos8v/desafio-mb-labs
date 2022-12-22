@@ -7,7 +7,7 @@ import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userR
 
 import { truncateDatabase } from '@tests/db/truncate'
 
-describe('Create event use case', () => {
+describe('Create user use case', () => {
   const prisma = new PrismaClient()
   const prismaUserRepository = prismaUserRepositoryFactory(prisma)
   
