@@ -1,4 +1,4 @@
-import type { UserModel } from '@domain/User'
+import type { CreateUserProps, UserModel } from '@domain/User'
 import { User, hashPass } from '@domain/User'
 
 import type { UserRepository } from '@application/interfaces/UserRepository'
@@ -7,13 +7,7 @@ type CreateUserUseCaseConstructor = {
   userRepository: UserRepository
 }
 
-type CreateUserRequest = Pick<UserModel, 'username' |
-  'name' |
-  'password' |
-  'description' |
-  'thumbnail'
->
-
+type CreateUserRequest = CreateUserProps
 type CreateUserUseCase = (_: CreateUserUseCaseConstructor) => (_: CreateUserRequest) => Promise<UserModel>
 
 export const createUserUseCaseFactory: CreateUserUseCase = ({ userRepository }) => {

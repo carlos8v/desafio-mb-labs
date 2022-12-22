@@ -1,4 +1,4 @@
-import type { EventModel } from '@domain/Event'
+import type { CreateEventProps, EventModel } from '@domain/Event'
 import { Event } from '@domain/Event'
 
 import type { EventRepository } from '@application/interfaces/EventRepository'
@@ -9,16 +9,7 @@ type CreateEventUseCaseConstructor = {
   eventRepository: EventRepository
 }
 
-type CreateEventRequest = Pick<EventModel, 'title' |
-  'subtitle' |
-  'description' |
-  'dueDate' |
-  'ticketPrice' |
-  'link' |
-  'place' |
-  'createdBy'
->
-
+type CreateEventRequest = CreateEventProps
 type CreateEventUseCase = (_: CreateEventUseCaseConstructor) => (_: CreateEventRequest) => Promise<EventModel>
 
 export const createEventUseCaseFactory: CreateEventUseCase = ({
