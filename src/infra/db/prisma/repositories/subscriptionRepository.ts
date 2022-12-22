@@ -22,6 +22,19 @@ export const prismaSubscriptionRepositoryFactory: (prisma: PrismaClient) => Subs
       }
     })
   },
+  findByUserId: async (userId) => {
+    const events = await prisma.event.findMany({
+      where: {
+        subscriptions: {
+          some: {
+            userId: userId
+          }
+        }
+      }
+    })
+
+    return events.map((event) => loadEventEntity(event))
+  },
   findManyByEventId: async (eventId) => {
     const eventWithSubscriptions = await prisma.event.findFirst({
       where: { id: eventId },
