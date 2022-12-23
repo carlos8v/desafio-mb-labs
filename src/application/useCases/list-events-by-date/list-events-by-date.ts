@@ -1,18 +1,19 @@
 import type { EventModel } from '@domain/Event'
 import type { EventRepository } from '@application/interfaces/EventRepository'
 
-type ListEventsByDateConstructor = {
-  eventRepository: EventRepository
-}
-
 type ListEventsByDateRequest = {
   startDate?: Date | null
   endDate: Date
 }
 
-type ListEventsByDateUseCase = (_: ListEventsByDateConstructor) => (_: ListEventsByDateRequest) => Promise<EventModel[]>
+type ListEventsByDateUseCaseFactory = UseCase<
+  { eventRepository: EventRepository },
+  ListEventsByDateRequest,
+  Promise<EventModel[]>
+>
+export type ListEventsByDateUseCase = ReturnType<ListEventsByDateUseCaseFactory>
 
-export const listEventsByDateUseCaseFactory: ListEventsByDateUseCase = ({
+export const listEventsByDateUseCaseFactory: ListEventsByDateUseCaseFactory = ({
   eventRepository
 }) => {
   return async ({

@@ -16,9 +16,14 @@ type SubscribeInEventRequest = {
   ticketPrice: number
 }
 
-type SubscribeInEventUseCase = (_: SubscribeInEventConstructor) => (_: SubscribeInEventRequest) => Promise<void>
+type SubscribeInEventUseCaseFactory = UseCase<
+  SubscribeInEventConstructor,
+  SubscribeInEventRequest,
+  Promise<void>
+>
+export type SubscribeInEventUseCase = ReturnType<SubscribeInEventUseCaseFactory>
 
-export const subscribeInEventUseCaseFactory: SubscribeInEventUseCase = ({
+export const subscribeInEventUseCaseFactory: SubscribeInEventUseCaseFactory = ({
   eventRepository,
   userRepository,
   subscriptionRepository

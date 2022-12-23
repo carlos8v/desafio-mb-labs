@@ -36,7 +36,7 @@ describe('Create event use case', () => {
       title: 'Javascript programmers challenge',
       subtitle: '1 week programming challenge',
       createdBy: mockedUserId,
-      dueDate,
+      dueDate: dueDate,
       ticketPrice: 0
     })).rejects.toThrowError()
   })

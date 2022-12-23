@@ -1,18 +1,22 @@
-import type { CreateEventProps, EventModel } from '@domain/Event'
+import type { EventModel } from '@domain/Event'
 import { Event } from '@domain/Event'
 
 import type { EventRepository } from '@application/interfaces/EventRepository'
 import type { UserRepository } from '@application/interfaces/UserRepository'
 
-type CreateEventUseCaseConstructor = {
-  userRepository: UserRepository
-  eventRepository: EventRepository
-}
+import type { CreateEventSchema } from './create-event-validator'
 
-type CreateEventRequest = CreateEventProps
-type CreateEventUseCase = (_: CreateEventUseCaseConstructor) => (_: CreateEventRequest) => Promise<EventModel>
+type CreateEventUseCaseFactory = UseCase<
+  {
+    userRepository: UserRepository
+    eventRepository: EventRepository
+  },
+  CreateEventSchema,
+  Promise<EventModel>
+>
+export type CreateEventUseCase = ReturnType<CreateEventUseCaseFactory>
 
-export const createEventUseCaseFactory: CreateEventUseCase = ({
+export const createEventUseCaseFactory: CreateEventUseCaseFactory = ({
   eventRepository,
   userRepository
 }) => {
@@ -33,7 +37,7 @@ export const createEventUseCaseFactory: CreateEventUseCase = ({
       title,
       subtitle,
       description,
-      dueDate,
+      dueDate: new Date(dueDate),
       ticketPrice,
       link,
       place,

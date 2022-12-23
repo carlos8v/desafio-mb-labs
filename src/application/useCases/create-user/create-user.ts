@@ -1,16 +1,18 @@
-import type { CreateUserProps, UserModel } from '@domain/User'
+import type { UserModel } from '@domain/User'
 import { User, hashPass } from '@domain/User'
 
 import type { UserRepository } from '@application/interfaces/UserRepository'
 
-type CreateUserUseCaseConstructor = {
-  userRepository: UserRepository
-}
+import type { CreateUserSchema } from './create-user-validator'
 
-type CreateUserRequest = CreateUserProps
-type CreateUserUseCase = (_: CreateUserUseCaseConstructor) => (_: CreateUserRequest) => Promise<UserModel>
+type CreateUserRequestFactory = UseCase<
+  { userRepository: UserRepository },
+  CreateUserSchema,
+  Promise<UserModel>
+>
+export type CreateUserUseCase = ReturnType<CreateUserRequestFactory>
 
-export const createUserUseCaseFactory: CreateUserUseCase = ({ userRepository }) => {
+export const createUserUseCaseFactory: CreateUserRequestFactory = ({ userRepository }) => {
   return async ({
     username,
     name,

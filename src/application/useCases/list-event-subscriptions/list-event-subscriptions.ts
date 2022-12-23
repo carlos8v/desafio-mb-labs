@@ -4,23 +4,24 @@ import type { SubscriptionRepository } from '@application/interfaces/Subscriptio
 import type { EventModel } from '@domain/Event'
 import type { SubscriptionModel } from '@domain/Subscription'
 
-type ListEventSubscriptionsConstructor = {
-  eventRepository: EventRepository
-  subscriptionRepository: SubscriptionRepository
-}
-
-type ListEventSubscriptionsRequest = {
-  userId: string
-  eventId: string
-}
+import type { ListEventSubscriptionsSchema } from './list-event-subscriptions-validator'
 
 type ListEventSubscriptionsResponse = {
   event: EventModel
   subscriptions: SubscriptionModel[]
 }
-type ListEventSubscriptionsUseCase = (_: ListEventSubscriptionsConstructor) => (_: ListEventSubscriptionsRequest) => Promise<ListEventSubscriptionsResponse>
 
-export const listEventSubscriptionsUseCaseFactory: ListEventSubscriptionsUseCase = ({
+type ListEventSubscriptionsUseCaseFactory = UseCase<
+  {
+    eventRepository: EventRepository
+    subscriptionRepository: SubscriptionRepository
+  },
+  ListEventSubscriptionsSchema,
+  Promise<ListEventSubscriptionsResponse>
+>
+export type ListEventSubscriptionsUseCase = ReturnType<ListEventSubscriptionsUseCaseFactory>
+
+export const listEventSubscriptionsUseCaseFactory: ListEventSubscriptionsUseCaseFactory = ({
   eventRepository,
   subscriptionRepository
 }) => {
