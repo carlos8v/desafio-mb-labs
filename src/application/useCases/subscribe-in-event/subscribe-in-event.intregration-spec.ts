@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 import { PrismaClient } from '@prisma/client'
-import { describe, it, expect, beforeEach, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 
 import { subscribeInEventUseCaseFactory } from './subscribe-in-event'
 

@@ -4,7 +4,7 @@
   "description": "Repositório de desafio da MB Labs",
   "scripts": {
     "test:unit": "vitest",
-    "test:e2e": "vitest -c vite-e2e.config.ts",
+    "test:integration": "vitest -c vite-integration.config.ts",
     "prebuild": "rimraf dist/",
     "build": "tsc -p tsconfig-build.json",
     "postbuild": "tscpaths -p tsconfig-build.json -s ./src -o ./dist"

@@ -19,9 +19,9 @@ npm run test:unit
 yarn test:unit
 ```
 
-**Testes _end-to-end_:**
+**Testes de integração:**
 
-Você precisará de um banco de dados _postgres_, seja local ou na nuvem, disponível para poder rodas os testes.
+Você precisará de um banco de dados _postgres_, seja local ou na nuvem, disponível para poder rodar os testes.
 
 Se você usa _docker_ então é possível copiar o arquivo `docker-compose.example.yml`.
 Com docker, execute o comando:
@@ -42,8 +42,8 @@ DATABASE_PASS=mb-labs
 Execute o comando:
 ```bash
 # com npm
-npm run test:e2e
+npm run test:integration
 
 # com yarn
-yarn test:e2e
+yarn test:integration
 ```
