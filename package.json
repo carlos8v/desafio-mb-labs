@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "description": "Repositório de desafio da MB Labs",
   "scripts": {
+    "dev": "tsnd -r tsconfig-paths/register --transpile-only src/infra/http/server.ts",
     "test:unit": "vitest",
     "test:integration": "vitest -c vite-integration.config.ts",
+    "test:e2e": "vitest -c vite-e2e.config.ts",
     "prebuild": "rimraf dist/",
     "build": "tsc -p tsconfig-build.json",
     "postbuild": "tscpaths -p tsconfig-build.json -s ./src -o ./dist"
@@ -16,14 +18,18 @@
     "bcrypt": "^5.1.0",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "pg": "^8.8.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.15",
     "@types/node": "^18.11.17",
+    "@types/supertest": "^2.0.12",
     "prisma": "^4.8.0",
     "rimraf": "^2.7.1",
+    "supertest": "^6.3.3",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.1.1",
     "tscpaths": "^0.0.9",
