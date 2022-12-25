@@ -11,7 +11,7 @@ export const prismaUserRepositoryFactory: (prisma: PrismaClient) => UserReposito
       },
       create: {
         id: userData.id,
-        name: 'userData.name',
+        name: userData.name,
         username: userData.username,
         password: userData.password,
         thumbnail: userData.thumbnail,
