@@ -1,18 +1,19 @@
 import type { LoginUserUseCase } from '@application/useCases/login-user/login-user'
 import type { LoginUserValidator } from '@application/useCases/login-user/login-user-validator'
+import type { AuthService } from '@infra/http/interfaces/AuthService'
 
 import { InvalidLoginError } from '@application/errors/invalid-login'
-
-import jwt from 'jsonwebtoken'
 
 import { ok, badRequest, unprocessableEntity } from '@infra/http/helpers/httpHelper'
 
 type LoginUserController = Controller<{
+  authService: AuthService
   loginUserUseCase: LoginUserUseCase
   loginUserSchema: LoginUserValidator
 }>
 
 export const loginUserControllerFactory: LoginUserController = ({
+  authService,
   loginUserSchema,
   loginUserUseCase
 }) => {
@@ -28,14 +29,7 @@ export const loginUserControllerFactory: LoginUserController = ({
       return badRequest(user.value)
     }
 
-    const accessToken = jwt.sign(
-      { id: user.value. id },
-      process.env.JWT_SECRET!,
-      {
-        subject: user.value.id,
-        algorithm: 'HS256'
-      }
-    )
+    const accessToken = authService.sign({ id: user.value.id })
 
     return ok({
       accessToken,

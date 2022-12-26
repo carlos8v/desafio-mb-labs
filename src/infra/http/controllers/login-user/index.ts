@@ -6,11 +6,18 @@ import { loginUserSchema } from '@application/useCases/login-user/login-user-val
 
 import { loginUserControllerFactory } from './login-user'
 
+import { jwtAuthServiceFactory } from '@infra/http/services/JWTAuthService'
+
+const authService = jwtAuthServiceFactory({
+  jwtSecret: process.env.JWT_SECRET!
+})
+
 const loginUserUseCase = loginUserUseCaseFactory({
   userRepository: prismaUserRepositoryFactory(prisma)
 })
 
 export const loginUserController = loginUserControllerFactory({
+  authService,
   loginUserSchema,
   loginUserUseCase
 })
