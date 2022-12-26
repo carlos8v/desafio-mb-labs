@@ -23,8 +23,9 @@ describe('Create user route', () => {
       .post('/users')
       .send({
         name: 'Carlos Souza',
+        email: 'carlos.pessoal@hotmail.com',
         username: 'carlos8v',
-        password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
+        password: '123123'
       })
 
     expect(status).toBe(201)
@@ -66,7 +67,8 @@ describe('Create user route', () => {
       .send({
         name: 'Carlos Souza',
         username: 'carlos8v',
-        password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
+        email: 'carlos.pessoal2@hotmail.com',
+        password: '123123'
       })
 
     expect(status).toBe(400)
