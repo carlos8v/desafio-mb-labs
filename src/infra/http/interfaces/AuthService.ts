@@ -5,6 +5,6 @@ export type Payload = {
 }
 
 export interface AuthService {
-  sign: (payload: Payload) => string
+  sign: <T extends Payload>(payload: T) => string
   verify: (token: string) => Either<Error, string | object>
 }

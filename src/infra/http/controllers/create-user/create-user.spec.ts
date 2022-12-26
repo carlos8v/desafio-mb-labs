@@ -29,12 +29,16 @@ describe('Create user route', () => {
       })
 
     expect(status).toBe(201)
+    expect(body.accessToken).not.toBeNull()
+    expect(typeof body.accessToken).toBe('string')
     expect(body).toEqual(
       expect.objectContaining({
-        name: "Carlos Souza",
-        username: "carlos8v",
-        thumbnail: null,
-        description: null
+        user: expect.objectContaining({
+          name: "Carlos Souza",
+          username: "carlos8v",
+          thumbnail: null,
+          description: null
+        })
       })
     )
   })

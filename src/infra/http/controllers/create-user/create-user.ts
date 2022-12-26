@@ -1,16 +1,19 @@
 import type { CreateUserUseCase } from '@application/useCases/create-user/create-user'
 import type { CreateUserValidator } from '@application/useCases/create-user/create-user-validator'
+import type { AuthService } from '@infra/http/interfaces/AuthService'
 
 import { InvalidUserBodyError } from '@infra/http/errors/invalid-user-body'
 
 import { badRequest, created, unprocessableEntity } from '@infra/http/helpers/httpHelper'
 
 type CreateUserController = Controller<{
+  authService: AuthService
   createUserUseCase: CreateUserUseCase
   createUserSchema: CreateUserValidator
 }>
 
 export const createUserControllerFactory: CreateUserController = ({
+  authService,
   createUserUseCase,
   createUserSchema
 }) => {
@@ -29,6 +32,11 @@ export const createUserControllerFactory: CreateUserController = ({
       return badRequest(newUser.value)
     }
 
-    return created(newUser.value)
+    const accessToken = authService.sign({ id: newUser.value.id })
+
+    return created({
+      accessToken,
+      user: newUser.value
+    })
   }
 }
