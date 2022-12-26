@@ -10,6 +10,24 @@ npm install
 yarn install
 ```
 
+Crie um arquivo `.env` seguindo o exemplo do `.env.example`:
+
+```env
+PORT=
+JWT_SECRET=
+DATABASE_URL="postgresql://mb-labs:mb-labs@localhost:5432/mb-labs?schema=public"
+```
+
+Para iniciar localmente o servidor rode o comando:
+
+```bash
+# com npm
+npm run start
+
+# com yarn
+yarn start
+```
+
 **Testes unitários:**
 ```bash
 # com npm
