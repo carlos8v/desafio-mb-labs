@@ -6,6 +6,8 @@ import { app } from '@infra/http/app'
 
 import { User } from '@domain/User'
 
+import { DuplicatedUsernameError } from '@application/errors/duplicated-username'
+
 import { truncateDatabase } from '@tests/db/truncate'
 
 describe('Create user use case', () => {
@@ -44,7 +46,7 @@ describe('Create user use case', () => {
       })
     })
 
-    const { status } = await supertest(app)
+    const { body, status } = await supertest(app)
       .post('/users')
       .send({
         name: 'Carlos Souza',
@@ -53,5 +55,10 @@ describe('Create user use case', () => {
       })
 
     expect(status).toBe(400)
+    expect(body).toEqual(
+      expect.objectContaining({
+        error: DuplicatedUsernameError.name
+      })
+    )
   })
 })
