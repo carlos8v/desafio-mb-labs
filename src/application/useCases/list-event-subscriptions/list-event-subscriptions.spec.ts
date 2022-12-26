@@ -65,6 +65,7 @@ describe('List event subscriptions use case', () => {
 
     const newUser = User({
       name: 'Carlos Souza 2',
+      email: 'carlos.pessoal2@hotmail.com',
       password: '$2a$10$Kl/U71Kw1EpbYtuL5vkc7eeHTo9DKFNG6J.DklKmmD/wBYrRJBh16',
       username: 'carlos8v2'
     })

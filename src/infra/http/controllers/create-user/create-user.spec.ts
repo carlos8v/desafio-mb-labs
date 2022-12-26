@@ -7,7 +7,7 @@ import { app } from '@infra/http/app'
 import { User } from '@domain/User'
 
 import { DuplicatedUsernameError } from '@application/errors/duplicated-username'
-import { InvalidUserBodyError } from '@infra/http/errors/InvalidUserBody'
+import { InvalidUserBodyError } from '@infra/http/errors/invalid-user-body'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
@@ -56,6 +56,7 @@ describe('Create user use case', () => {
       data: User({
         name: 'Carlos Souza',
         username: 'carlos8v',
+        email: 'carlos.pessoal@hotmail.com',
         password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
       })
     })

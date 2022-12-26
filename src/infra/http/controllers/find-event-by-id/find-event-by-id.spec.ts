@@ -5,7 +5,7 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import supertest from 'supertest'
 import { app } from '@infra/http/app'
 
-import { InvalidEventIdParamError } from '@infra/http/errors/InvalidEventIdParam'
+import { InvalidEventIdParamError } from '@infra/http/errors/invalid-event-id-param'
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
 
 import { truncateDatabase } from '@tests/db/truncate'

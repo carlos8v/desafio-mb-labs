@@ -1,4 +1,4 @@
-import { InvalidEventBodyError } from '@infra/http/errors/InvalidEventBody'
+import { InvalidEventBodyError } from '@infra/http/errors/invalid-event-body'
 
 import type { CreateEventUseCase } from '@application/useCases/create-event/create-event'
 import type { CreateEventValidator } from '@application/useCases/create-event/create-event-validator'

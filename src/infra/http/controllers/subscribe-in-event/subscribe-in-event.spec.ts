@@ -8,7 +8,7 @@ import { app } from '@infra/http/app'
 import { NonexistentUserError } from '@application/errors/nonexistent-user'
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
 import { CompletedEventSubscriptionError } from '@application/errors/completed-event-subscription'
-import { InvalidSubscriptionBodyError } from '@infra/http/errors/InvalidSubscriptionBody'
+import { InvalidSubscriptionBodyError } from '@infra/http/errors/invalid-subscription-body'
 
 import { truncateDatabase } from '@tests/db/truncate'
 

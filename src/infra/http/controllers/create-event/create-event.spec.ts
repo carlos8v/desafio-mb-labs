@@ -8,7 +8,7 @@ import { app } from '@infra/http/app'
 import { userSeed } from '@tests/db/seeds/user.seed'
 
 import { NonexistentUserError } from '@application/errors/nonexistent-user'
-import { InvalidEventBodyError } from '@infra/http/errors/InvalidEventBody'
+import { InvalidEventBodyError } from '@infra/http/errors/invalid-event-body'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
