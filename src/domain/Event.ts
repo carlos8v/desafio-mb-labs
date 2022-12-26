@@ -1,5 +1,10 @@
 import { randomUUID } from 'crypto'
+
+import { Either, left, right } from './utils/Either'
 import type { OptionalProps } from './utils/OptionalProps'
+
+import { InvalidDueDateError } from './errors/invalid-due-date'
+import { InvalidTicketPriceError } from './errors/invalid-ticket-price'
 
 export type EventModel = {
   id: string
@@ -24,20 +29,28 @@ type OptionalCreateProps = 'id' |
 
 export type CreateEventProps = OptionalProps<EventModel, OptionalCreateProps>
 
+type CreateEventResponse = Either<
+  InvalidDueDateError |
+  InvalidTicketPriceError,
+  EventModel
+>
+
 export const Event = ({
   completed = false,
   ...eventData
-}: CreateEventProps): EventModel => {
+}: CreateEventProps): CreateEventResponse => {
   if (
     !completed &&
     new Date(eventData.dueDate) < new Date()
   ) {
-    throw new Error('Cannot create event before current date')
+    return left(new InvalidDueDateError())
   }
 
-  if (eventData.ticketPrice < 0) throw new Error('Cannot create event with negative ticket price')
+  if (eventData.ticketPrice < 0) {
+    return left(new InvalidTicketPriceError())
+  }
 
-  return {
+  return right({
     id: eventData?.id || randomUUID(),
     title: eventData.title,
     subtitle: eventData.subtitle,
@@ -49,5 +62,5 @@ export const Event = ({
     place: eventData?.place || null,
     link: eventData?.link || null,
     createdAt: eventData?.createdAt || new Date()
-  }
+  })
 }

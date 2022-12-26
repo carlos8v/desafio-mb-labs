@@ -1,8 +1,14 @@
-import type { EventModel } from '@domain/Event'
+import type { EventModel,CreateEventProps } from '@domain/Event'
 import { Event } from '@domain/Event'
 
+const generateEvent = (props: CreateEventProps) => {
+  const newEvent = Event(props)
+  if (newEvent.isLeft()) throw new Error('Invalid event seed')
+  return newEvent.value
+}
+
 export const eventSeed: EventModel[] = [
-  Event({
+  generateEvent({
     title: 'Javascript programmers challenge I',
     subtitle: '1 day programming challenge',
     createdBy: 'fe48e697-f141-41a8-bf28-05717570f3e6',
@@ -14,7 +20,7 @@ export const eventSeed: EventModel[] = [
     completed: true,
     ticketPrice: 0
   }),
-  Event({
+  generateEvent({
     title: 'Javascript programmers challenge II',
     subtitle: '1 week programming challenge',
     createdBy: 'fe48e697-f141-41a8-bf28-05717570f3e6',
@@ -25,7 +31,7 @@ export const eventSeed: EventModel[] = [
     })(),
     ticketPrice: 0
   }),
-  Event({
+  generateEvent({
     title: 'Javascript programmers challenge III',
     subtitle: '1 week programming challenge',
     createdBy: 'fe48e697-f141-41a8-bf28-05717570f3e6',
