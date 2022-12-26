@@ -13,16 +13,12 @@ import { NonexistentUserError } from '@application/errors/nonexistent-user'
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
 import { CompletedEventSubscriptionError } from '@application/errors/completed-event-subscription'
 
+import type { SubscribeInEventSchema } from './subscribe-in-event-validator'
+
 type SubscribeInEventConstructor = {
   eventRepository: EventRepository
   userRepository: UserRepository
   subscriptionRepository: SubscriptionRepository
-}
-
-type SubscribeInEventRequest = {
-  eventId: string
-  userId: string
-  ticketPrice: number
 }
 
 type SubscribeInEventResponse = Either<
@@ -35,7 +31,7 @@ type SubscribeInEventResponse = Either<
 
 type SubscribeInEventUseCaseFactory = UseCase<
   SubscribeInEventConstructor,
-  SubscribeInEventRequest,
+  SubscribeInEventSchema,
   Promise<SubscribeInEventResponse>
 >
 export type SubscribeInEventUseCase = ReturnType<SubscribeInEventUseCaseFactory>

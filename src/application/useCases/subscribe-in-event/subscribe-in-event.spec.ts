@@ -38,7 +38,7 @@ describe('Subscribe in event use case', () => {
     await prismaEventRepository.save(completedEvent)
   })
 
-  it('should not able to subscribe in event', async () => {
+  it('should be able to subscribe in event', async () => {
     const result = await subscribeInEventUseCase({
       eventId: event.id,
       userId: userSeed[0].id,
