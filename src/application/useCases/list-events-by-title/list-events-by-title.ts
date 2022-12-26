@@ -1,14 +1,14 @@
 import type { EventRepository } from '@application/interfaces/EventRepository'
 import { EventModel } from '@domain/Event'
 
-type FindEventByTitleUseCaseFactory = UseCase<
+type ListEventsByTitleUseCaseFactory = UseCase<
   { eventRepository: EventRepository },
   string,
   Promise<EventModel[]>
 >
-export type FindEventByTitleUseCase = ReturnType<FindEventByTitleUseCaseFactory>
+export type ListEventsByTitleUseCase = ReturnType<ListEventsByTitleUseCaseFactory>
 
-export const findEventByTitleUseCaseFactory: FindEventByTitleUseCaseFactory = ({
+export const listEventsByTitleUseCaseFactory: ListEventsByTitleUseCaseFactory = ({
   eventRepository
 }) => {
   return async (title) => {

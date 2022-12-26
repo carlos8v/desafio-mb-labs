@@ -1,25 +1,19 @@
 import { PrismaClient } from '@prisma/client'
 import { describe, it, expect, beforeAll } from 'vitest'
 
-import { findEventByTitleUseCaseFactory } from './find-event-by-title'
-
-import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
+import supertest from 'supertest'
+import { app } from '@infra/http/app'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
 
-describe('Find event by title use case', () => {
+describe('List events by title use case', () => {
   const [user] = userSeed
-  const [_, event] = eventSeed
+  const [_, event, newEvent] = eventSeed
 
   const prisma = new PrismaClient()
-  const prismaEventRepository = prismaEventRepositoryFactory(prisma)
-
-  const findEventByTitleUseCase = findEventByTitleUseCaseFactory({
-    eventRepository: prismaEventRepository
-  })
 
   beforeAll(async () => {
     await truncateDatabase(prisma)
@@ -28,9 +22,10 @@ describe('Find event by title use case', () => {
   })
 
   it('should return correct event info in uppercase title match', async () => {
-    const result = await findEventByTitleUseCase('JAVASCRIPT')
-    expect(result.length).toBe(1)
-    expect(result).toEqual(
+    const { body, status } = await supertest(app).get('/events/search/title?title=JAVASCRIPT')
+
+    expect(status).toBe(200)
+    expect(body).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           id: event.id,
@@ -38,21 +33,22 @@ describe('Find event by title use case', () => {
           subtitle: event.subtitle,
           description: event.description,
           createdBy: event.createdBy,
-          dueDate: event.dueDate,
+          dueDate: event.dueDate.toISOString(),
           ticketPrice: event.ticketPrice,
           completed: event.completed,
           place: event.place,
           link: event.link,
-          createdAt: event.createdAt
+          createdAt: event.createdAt.toISOString()
         })
       ])
     )
   })
 
   it('should return correct event info in lowercase title match', async () => {
-    const result = await findEventByTitleUseCase('javascript')
-    expect(result.length).toBe(1)
-    expect(result).toEqual(
+    const { body, status } = await supertest(app).get('/events/search/title?title=javascript')
+
+    expect(status).toBe(200)
+    expect(body).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           id: event.id,
@@ -60,19 +56,38 @@ describe('Find event by title use case', () => {
           subtitle: event.subtitle,
           description: event.description,
           createdBy: event.createdBy,
-          dueDate: event.dueDate,
+          dueDate: event.dueDate.toISOString(),
           ticketPrice: event.ticketPrice,
           completed: event.completed,
           place: event.place,
           link: event.link,
-          createdAt: event.createdAt
+          createdAt: event.createdAt.toISOString()
         })
       ])
     )
   })
 
   it('should return empyt list in no title match', async () => {
-    const events = await findEventByTitleUseCase('should not match')
-    expect(events.length).toBe(0)
+    const { body, status } = await supertest(app).get('/events/search/title?title=should not match')
+
+    expect(status).toBe(200)
+    expect(body).toBeInstanceOf(Array)
+    expect(body.length).toBe(0)
+  })
+
+  it('should return all events with empty title', async () => {
+    await prisma.event.createMany({ data: newEvent })
+
+    const { body, status } = await supertest(app).get('/events/search/title?title=')
+
+    expect(status).toBe(200)
+    expect(body).toBeInstanceOf(Array)
+    expect(body.length).toBe(2)
+    expect(body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: event.id }),
+        expect.objectContaining({ id: newEvent.id })
+      ])
+    )
   })
 })
