@@ -6,6 +6,7 @@ export type UserModel = {
   id: string
   name: string
   username: string
+  email: string
   password: string
   thumbnail: string | null
   description: string | null
@@ -17,6 +18,7 @@ export type CreateUserProps = OptionalProps<UserModel, OptionalCreateProps>
 export const User = (userData: CreateUserProps): UserModel => ({
   id: userData?.id || randomUUID(),
   name: userData.name,
+  email: userData.email,
   username: userData.username,
   password: userData.password,
   thumbnail: userData?.thumbnail || null,

@@ -25,6 +25,7 @@ export const createUserUseCaseFactory: CreateUserRequestFactory = ({ userReposit
   return async ({
     username,
     name,
+    email,
     password,
     description = null,
     thumbnail = null
@@ -39,6 +40,7 @@ export const createUserUseCaseFactory: CreateUserRequestFactory = ({ userReposit
     const newUser = User({
       username,
       name,
+      email,
       password: cryptPass,
       description,
       thumbnail

@@ -12,6 +12,7 @@ export const prismaUserRepositoryFactory: (prisma: PrismaClient) => UserReposito
       create: {
         id: userData.id,
         name: userData.name,
+        email: userData.email,
         username: userData.username,
         password: userData.password,
         thumbnail: userData.thumbnail,
@@ -19,6 +20,7 @@ export const prismaUserRepositoryFactory: (prisma: PrismaClient) => UserReposito
       },
       update: {
         name: userData.name,
+        email: userData.email,
         username: userData.username,
         password: userData.password,
         thumbnail: userData.thumbnail,
@@ -29,6 +31,15 @@ export const prismaUserRepositoryFactory: (prisma: PrismaClient) => UserReposito
   findById: async (userId) => {
     const user = await prisma.user.findFirst({
       where: { id: userId }
+    })
+
+    if (!user) return null
+
+    return User(user)
+  },
+  findByEmail: async (email) => {
+    const user = await prisma.user.findFirst({
+      where: { email }
     })
 
     if (!user) return null

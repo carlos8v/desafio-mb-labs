@@ -24,6 +24,7 @@ describe('Create user use case', () => {
     const newUser = await createUserUseCase({
       name: 'Carlos Souza',
       username: 'carlos8v',
+      email: 'carlos.pessoal@hotmail.com',
       password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
     })
 
@@ -39,6 +40,7 @@ describe('Create user use case', () => {
     const duplicatedUser = await createUserUseCase({
       name: 'Carlos Souza 2',
       username: 'carlos8v',
+      email: 'carlos.pessoal2@hotmail.com',
       password: '$2a$10$hTMiRrtZBsW89P1jc3QLXuj.tn6jH87Cza3ckDEwV/lrx9/DDsqGa'
     })
 
