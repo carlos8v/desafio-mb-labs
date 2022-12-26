@@ -10,7 +10,7 @@ import { truncateDatabase } from '@tests/db/truncate'
 
 import { userSeed } from '@tests/db/seeds/user.seed'
 
-describe('List user subscriptions use case', () => {
+describe('Login user route', () => {
   const [user] = userSeed
 
   const prisma = new PrismaClient()

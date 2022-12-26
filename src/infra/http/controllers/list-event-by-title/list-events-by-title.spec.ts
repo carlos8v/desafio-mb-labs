@@ -9,7 +9,7 @@ import { truncateDatabase } from '@tests/db/truncate'
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
 
-describe('List events by title use case', () => {
+describe('List events by title route', () => {
   const [user] = userSeed
   const [_, event, newEvent] = eventSeed
 

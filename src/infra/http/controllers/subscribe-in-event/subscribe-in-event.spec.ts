@@ -15,7 +15,7 @@ import { truncateDatabase } from '@tests/db/truncate'
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
 
-describe('Subscribe in event use case', () => {
+describe('Subscribe in event route', () => {
   const prisma = new PrismaClient()
   const [user] = userSeed
   const [completedEvent, event] = eventSeed

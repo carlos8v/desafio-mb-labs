@@ -6,6 +6,7 @@ import { Subscription } from '@domain/Subscription'
 
 import { listUserSubscriptionsUseCaseFactory } from './list-user-subscriptions'
 
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
 import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscriptionRepository'
 
 import { truncateDatabase } from '@tests/db/truncate'
@@ -18,8 +19,10 @@ describe('List user subscriptions use case', () => {
 
   const prisma = new PrismaClient()
   const prismaSubscriptionRepository = prismaSubscriptionRepositoryFactory(prisma)
+  const prismaUserRepository = prismaUserRepositoryFactory(prisma)
   
   const listUserSubscriptionsUseCase = listUserSubscriptionsUseCaseFactory({
+    userRepository: prismaUserRepository,
     subscriptionRepository: prismaSubscriptionRepository
   })
 
@@ -40,8 +43,8 @@ describe('List user subscriptions use case', () => {
     await prisma.subscription.create({ data: subscription })
 
     const subscriptionList = await listUserSubscriptionsUseCase({ userId: userSeed[0].id })
-    expect(subscriptionList.length).toBe(1)
-    expect(subscriptionList).toEqual(
+    expect(subscriptionList.isRight()).toBe(true)
+    expect(subscriptionList.value).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: events[0].id }),
       ])
@@ -57,8 +60,8 @@ describe('List user subscriptions use case', () => {
     await prisma.subscription.create({ data: newSubscription })
 
     const updatedSubscriptionList = await listUserSubscriptionsUseCase({ userId: userSeed[0].id })
-    expect(updatedSubscriptionList.length).toBe(2)
-    expect(updatedSubscriptionList).toEqual(
+    expect(updatedSubscriptionList.isRight()).toBe(true)
+    expect(updatedSubscriptionList.value).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: events[0].id }),
         expect.objectContaining({ id: events[1].id }),

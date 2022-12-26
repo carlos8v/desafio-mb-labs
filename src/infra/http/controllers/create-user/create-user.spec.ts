@@ -11,7 +11,7 @@ import { InvalidUserBodyError } from '@infra/http/errors/invalid-user-body'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
-describe('Create user use case', () => {
+describe('Create user route', () => {
   const prisma = new PrismaClient()
 
   beforeEach(async () => {

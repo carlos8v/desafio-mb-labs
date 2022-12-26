@@ -12,7 +12,7 @@ import { InvalidEventBodyError } from '@infra/http/errors/invalid-event-body'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
-describe('Create user use case', () => {
+describe('Create event route', () => {
   const prisma = new PrismaClient()
 
   beforeEach(async () => {

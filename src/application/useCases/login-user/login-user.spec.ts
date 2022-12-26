@@ -10,7 +10,7 @@ import { truncateDatabase } from '@tests/db/truncate'
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
 
-describe('List events by title use case', () => {
+describe('Login user use case', () => {
   const [user] = userSeed
 
   const prisma = new PrismaClient()
