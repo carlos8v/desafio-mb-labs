@@ -13,4 +13,5 @@ export const createEventSchema = z.object({
   createdBy: z.string().uuid()
 })
 
+export type CreateEventValidator = typeof createEventSchema
 export type CreateEventSchema = z.infer<typeof createEventSchema>

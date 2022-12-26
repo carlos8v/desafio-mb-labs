@@ -7,6 +7,7 @@ import { app } from '@infra/http/app'
 import { User } from '@domain/User'
 
 import { DuplicatedUsernameError } from '@application/errors/duplicated-username'
+import { InvalidUserBodyError } from '@infra/http/errors/InvalidUserBody'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
@@ -33,6 +34,19 @@ describe('Create user use case', () => {
         username: "carlos8v",
         thumbnail: null,
         description: null
+      })
+    )
+  })
+
+  it('should not be able to create user with invalid fields', async () => {
+    const { body, status } = await supertest(app)
+      .post('/users')
+      .send({})
+
+    expect(status).toBe(422)
+    expect(body).toEqual(
+      expect.objectContaining({
+        error: InvalidUserBodyError.name
       })
     )
   })

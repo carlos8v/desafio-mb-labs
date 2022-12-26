@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 import { expressRouteAdapter } from '../adapters/expressRouteAdapter'
 
-import { createEventController } from '../controller/create-event'
+import { createEventController } from '../controllers/create-event'
 
 export const eventsRouter = Router()
 

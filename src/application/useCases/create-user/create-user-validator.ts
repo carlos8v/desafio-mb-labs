@@ -8,4 +8,5 @@ export const createUserSchema = z.object({
   thumbnail: z.string().nullish()
 })
 
+export type CreateUserValidator = typeof createUserSchema
 export type CreateUserSchema = z.infer<typeof createUserSchema>

@@ -8,6 +8,7 @@ import { app } from '@infra/http/app'
 import { userSeed } from '@tests/db/seeds/user.seed'
 
 import { NonexistentUserError } from '@application/errors/nonexistent-user'
+import { InvalidEventBodyError } from '@infra/http/errors/InvalidEventBody'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
@@ -64,6 +65,19 @@ describe('Create user use case', () => {
     expect(body).toEqual(
       expect.objectContaining({
         error: NonexistentUserError.name
+      })
+    )
+  })
+
+  it('should not be able to create event with invalid fields', async () => {
+    const { body, status } = await supertest(app)
+      .post('/events')
+      .send({})
+
+    expect(status).toBe(422)
+    expect(body).toEqual(
+      expect.objectContaining({
+        error: InvalidEventBodyError.name
       })
     )
   })
