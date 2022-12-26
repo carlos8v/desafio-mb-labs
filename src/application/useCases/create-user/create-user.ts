@@ -5,10 +5,19 @@ import type { UserRepository } from '@application/interfaces/UserRepository'
 
 import type { CreateUserSchema } from './create-user-validator'
 
+import type { Either } from '@domain/utils/Either'
+import { left, right } from '@domain/utils/Either'
+import { DuplicatedUsernameError } from '@application/errors/duplicated-username'
+
+type CreateUserResponse = Either<
+  DuplicatedUsernameError,
+  Omit<UserModel, 'password'>
+>
+
 type CreateUserRequestFactory = UseCase<
   { userRepository: UserRepository },
   CreateUserSchema,
-  Promise<UserModel>
+  Promise<CreateUserResponse>
 >
 export type CreateUserUseCase = ReturnType<CreateUserRequestFactory>
 
@@ -21,7 +30,9 @@ export const createUserUseCaseFactory: CreateUserRequestFactory = ({ userReposit
     thumbnail = null
   }) => {
     const user = await userRepository.findByUsername(username)
-    if (user?.id) throw new Error('Cannot create user with duplicated username')
+    if (user?.id) {
+      return left(new DuplicatedUsernameError())
+    }
 
     const cryptPass = await hashPass(password)
 
@@ -34,7 +45,8 @@ export const createUserUseCaseFactory: CreateUserRequestFactory = ({ userReposit
     })
 
     await userRepository.save(newUser)
+    const { password: _, ...safeUser } = newUser
 
-    return newUser
+    return right(safeUser)
   }
 }
