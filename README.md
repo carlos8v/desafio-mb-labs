@@ -15,17 +15,28 @@ Crie um arquivo `.env` seguindo o exemplo do `.env.example`:
 ```env
 PORT=
 JWT_SECRET=
-DATABASE_URL="postgresql://mb-labs:mb-labs@localhost:5432/mb-labs?schema=public"
+DATABASE_URL=postgresql://mb-labs:mb-labs@localhost:5432/mb-labs?schema=public
 ```
 
 Para iniciar localmente o servidor rode o comando:
 
 ```bash
 # com npm
-npm run start
+npm run dev
 
 # com yarn
-yarn start
+yarn dev
+```
+
+Se você utiliza _docker_ rode os seguintes comandos para iniciar localmente a aplicação
+
+```bash
+docker build . -t carlos8v/desafio-mb-labs
+docker run -d \
+  --name carlos8v-desafio-mb-labs \
+  --env-file .env \
+  -p 3000:3000 \
+  carlos8v/desafio-mb-labs
 ```
 
 **Testes unitários:**
