@@ -6,10 +6,20 @@ import type { SubscriptionModel } from '@domain/Subscription'
 
 import type { ListEventSubscriptionsSchema } from './list-event-subscriptions-validator'
 
-type ListEventSubscriptionsResponse = {
-  event: EventModel
-  subscriptions: SubscriptionModel[]
-}
+import { EventSubscriptionAuthError } from '@application/errors/event-subscriptions-auth'
+import { NonexistentEventError } from '@application/errors/nonexistent-event'
+
+import type { Either } from '@domain/utils/Either'
+import { left, right } from '@domain/utils/Either'
+
+type ListEventSubscriptionsResponse = Either<
+  NonexistentEventError |
+  EventSubscriptionAuthError,
+  {
+    event: EventModel
+    subscriptions: SubscriptionModel[]
+  }
+>
 
 type ListEventSubscriptionsUseCaseFactory = UseCase<
   {
@@ -27,15 +37,19 @@ export const listEventSubscriptionsUseCaseFactory: ListEventSubscriptionsUseCase
 }) => {
   return async ({ eventId, userId }) => {
     const event = await eventRepository.findById(eventId)
-    if (!event?.id) throw new Error('Event does not exist')
+    if (!event?.id) {
+      return left(new NonexistentEventError())
+    }
 
-    if(event.createdBy !== userId) throw new Error('User cannot see subscriptions for this event')
+    if(event.createdBy !== userId) {
+      return left(new EventSubscriptionAuthError())
+    }
 
     const subscriptions = await subscriptionRepository.findManyByEventId(eventId)
 
-    return {
+    return right({
       event,
       subscriptions
-    }
+    })
   }
 }

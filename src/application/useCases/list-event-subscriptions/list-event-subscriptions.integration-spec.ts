@@ -9,6 +9,9 @@ import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositori
 
 import { truncateDatabase } from '@tests/db/truncate'
 
+import { NonexistentEventError } from '@application/errors/nonexistent-event'
+import { EventSubscriptionAuthError } from '@application/errors/event-subscriptions-auth'
+
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
 import { Subscription } from '@domain/Subscription'
@@ -47,8 +50,8 @@ describe('List event subscriptions use case', () => {
       eventId: event.id
     })
 
-    expect(eventSubscriptions.subscriptions.length).toBe(1)
-    expect(eventSubscriptions).toEqual(
+    expect(eventSubscriptions.isLeft()).toBe(false)
+    expect(eventSubscriptions.value).toEqual(
       expect.objectContaining({
         event: expect.objectContaining({ id: event.id }),
         subscriptions: expect.arrayContaining([
@@ -77,8 +80,8 @@ describe('List event subscriptions use case', () => {
       eventId: event.id
     })
 
-    expect(updatedEventSubscriptions.subscriptions.length).toBe(2)
-    expect(updatedEventSubscriptions).toEqual(
+    expect(updatedEventSubscriptions.isLeft()).toBe(false)
+    expect(updatedEventSubscriptions.value).toEqual(
       expect.objectContaining({
         event: expect.objectContaining({ id: event.id }),
         subscriptions: expect.arrayContaining([
@@ -90,16 +93,24 @@ describe('List event subscriptions use case', () => {
   })
 
   it('should throw error if event does not exists', async () => {
-    await expect(listUserSubscriptionsUseCase({
+    const result = await listUserSubscriptionsUseCase({
       userId: user.id,
       eventId: randomUUID()
-    })).rejects.toThrowError()
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isRight()).toBe(false)
+    expect(result.value).toBeInstanceOf(NonexistentEventError)
   })
 
   it('should not allow to see subscriptions of event created by other user', async () => {
-    await expect(listUserSubscriptionsUseCase({
+    const result = await listUserSubscriptionsUseCase({
       userId: randomUUID(),
       eventId: event.id
-    })).rejects.toThrowError()
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isRight()).toBe(false)
+    expect(result.value).toBeInstanceOf(EventSubscriptionAuthError)
   })
 })
