@@ -6,13 +6,28 @@ import type { UserRepository } from '@application/interfaces/UserRepository'
 
 import type { CreateEventSchema } from './create-event-validator'
 
+import type { Either } from '@domain/utils/Either'
+import { left, right } from '@domain/utils/Either'
+
+import { InvalidDueDateError } from '@domain/errors/invalid-due-date'
+import { InvalidTicketPriceError } from '@domain/errors/invalid-ticket-price'
+
+import { NonexistentUserError } from '@application/errors/nonexistent-user'
+
+type CreateEventUseCaseResponse = Either<
+  InvalidDueDateError |
+  InvalidTicketPriceError |
+  NonexistentUserError,
+  EventModel
+>
+
 type CreateEventUseCaseFactory = UseCase<
   {
     userRepository: UserRepository
     eventRepository: EventRepository
   },
   CreateEventSchema,
-  Promise<EventModel>
+  Promise<CreateEventUseCaseResponse>
 >
 export type CreateEventUseCase = ReturnType<CreateEventUseCaseFactory>
 
@@ -31,7 +46,9 @@ export const createEventUseCaseFactory: CreateEventUseCaseFactory = ({
     createdBy
   }) => {
     const user = await userRepository.findById(createdBy)
-    if (!user) throw new Error('Cannot create event without user')
+    if (!user) {
+      return left(new NonexistentUserError())
+    }
 
     const newEvent = Event({
       title,
@@ -44,8 +61,12 @@ export const createEventUseCaseFactory: CreateEventUseCaseFactory = ({
       createdBy
     })
 
-    await eventRepository.save(newEvent)
+    if (newEvent.isLeft()) {
+      return left(newEvent.value)
+    }
 
-    return newEvent
+    await eventRepository.save(newEvent.value)
+
+    return right(newEvent.value)
   }
 }

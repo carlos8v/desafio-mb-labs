@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client'
 import { describe, it, expect, beforeAll } from 'vitest'
 
 import { createEventUseCaseFactory } from './create-event'
+import { NonexistentUserError } from '@application/errors/nonexistent-user'
 
 import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
 import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
@@ -32,12 +33,16 @@ describe('Create event use case', () => {
     const dueDate = new Date()
     dueDate.setDate(dueDate.getDate() + 1)
 
-    await expect(createEventUseCase({
+    const newEvent = await createEventUseCase({
       title: 'Javascript programmers challenge',
       subtitle: '1 week programming challenge',
       createdBy: mockedUserId,
       dueDate: dueDate,
       ticketPrice: 0
-    })).rejects.toThrowError()
+    })
+
+    expect(newEvent.isLeft()).toBe(true)
+    expect(newEvent.isRight()).toBe(false)
+    expect(newEvent.value).toBeInstanceOf(NonexistentUserError)
   })
 })
