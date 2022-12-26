@@ -1,8 +1,17 @@
+import type { SubscriptionModel } from '@domain/Subscription'
 import { Subscription } from '@domain/Subscription'
 
 import type { EventRepository } from '@application/interfaces/EventRepository'
 import type { SubscriptionRepository } from '@application/interfaces/SubscriptionRepository'
 import type { UserRepository } from '@application/interfaces/UserRepository'
+
+import type { Either } from '@domain/utils/Either'
+import { left, right } from '@domain/utils/Either'
+
+import { InvalidTicketPriceError } from '@domain/errors/invalid-ticket-price'
+import { NonexistentUserError } from '@application/errors/nonexistent-user'
+import { NonexistentEventError } from '@application/errors/nonexistent-event'
+import { CompletedEventSubscriptionError } from '@application/errors/completed-event-subscription'
 
 type SubscribeInEventConstructor = {
   eventRepository: EventRepository
@@ -16,10 +25,18 @@ type SubscribeInEventRequest = {
   ticketPrice: number
 }
 
+type SubscribeInEventResponse = Either<
+  NonexistentEventError |
+  NonexistentUserError |
+  CompletedEventSubscriptionError |
+  InvalidTicketPriceError,
+  SubscriptionModel
+>
+
 type SubscribeInEventUseCaseFactory = UseCase<
   SubscribeInEventConstructor,
   SubscribeInEventRequest,
-  Promise<void>
+  Promise<SubscribeInEventResponse>
 >
 export type SubscribeInEventUseCase = ReturnType<SubscribeInEventUseCaseFactory>
 
@@ -29,14 +46,12 @@ export const subscribeInEventUseCaseFactory: SubscribeInEventUseCaseFactory = ({
   subscriptionRepository
 }) => {
   return async ({ eventId, userId, ticketPrice }) => {
-    if (ticketPrice < 0) throw new Error('Cannot create subscription with negative ticket price')
-
     const event = await eventRepository.findById(eventId)
-    if (!event?.id) throw new Error('Cannot subscribe in nonexistent event')
-    if (event.completed) throw new Error('Cannot subscribe on completed event')
+    if (!event?.id) return left(new NonexistentEventError())  
+    if (event.completed) return left(new CompletedEventSubscriptionError())
 
     const user = await userRepository.findById(userId)
-    if (!user) throw new Error('Cannot subscribe with nonexistent user')
+    if (!user) return left(new NonexistentUserError())
 
     const subscription = Subscription({
       eventId,
@@ -45,6 +60,11 @@ export const subscribeInEventUseCaseFactory: SubscribeInEventUseCaseFactory = ({
       createdAt: new Date()
     })
 
-    await subscriptionRepository.save(subscription)
+    if (subscription.isLeft()) {
+      return left(subscription.value)
+    }
+
+    await subscriptionRepository.save(subscription.value)
+    return right(subscription.value)
   }
 }

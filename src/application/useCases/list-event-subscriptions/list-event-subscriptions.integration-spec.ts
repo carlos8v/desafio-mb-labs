@@ -2,6 +2,10 @@ import { randomUUID } from 'crypto'
 import { PrismaClient } from '@prisma/client'
 import { describe, it, expect, beforeAll } from 'vitest'
 
+import type { SubscriptionModel } from '@domain/Subscription' 
+import { Subscription } from '@domain/Subscription'
+import { User } from '@domain/User'
+
 import { listEventSubscriptionsUseCaseFactory } from './list-event-subscriptions'
 
 import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
@@ -14,8 +18,6 @@ import { EventSubscriptionAuthError } from '@application/errors/event-subscripti
 
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
-import { Subscription } from '@domain/Subscription'
-import { User } from '@domain/User'
 
 describe('List event subscriptions use case', () => {
   const [user] = userSeed
@@ -42,7 +44,8 @@ describe('List event subscriptions use case', () => {
       userId: user.id,
       createdAt: new Date(),
       ticketPrice: event.ticketPrice
-    })
+    }).value as SubscriptionModel
+
     await prisma.subscription.create({ data: subscription })
 
     const eventSubscriptions = await listUserSubscriptionsUseCase({
@@ -71,7 +74,8 @@ describe('List event subscriptions use case', () => {
       userId: newUser.id,
       createdAt: new Date(),
       ticketPrice: event.ticketPrice
-    })
+    }).value as SubscriptionModel
+
     await prisma.user.create({ data: newUser })
     await prisma.subscription.create({ data: newSubscription })
 

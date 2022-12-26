@@ -4,6 +4,11 @@ import { describe, it, expect, beforeAll } from 'vitest'
 
 import { subscribeInEventUseCaseFactory } from './subscribe-in-event'
 
+import { InvalidTicketPriceError } from '@domain/errors/invalid-ticket-price'
+import { NonexistentUserError } from '@application/errors/nonexistent-user'
+import { NonexistentEventError } from '@application/errors/nonexistent-event'
+import { CompletedEventSubscriptionError } from '@application/errors/completed-event-subscription'
+
 import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
 import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
 import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscriptionRepository'
@@ -34,42 +39,63 @@ describe('Subscribe in event use case', () => {
   })
 
   it('should not able to subscribe in event', async () => {
-    await expect(subscribeInEventUseCase({
+    const result = await subscribeInEventUseCase({
       eventId: event.id,
       userId: userSeed[0].id,
       ticketPrice: event.ticketPrice,
-    })).resolves.not.toThrowError()
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(result.value).toEqual(
+      expect.objectContaining({
+        eventId: event.id,
+        userId: userSeed[0].id,
+        ticketPrice: event.ticketPrice,
+      })
+    )
   })
 
   it('should not be able to subscribe with nonexistent event', async () => {
-    await expect(subscribeInEventUseCase({
+    const result = await subscribeInEventUseCase({
       eventId: randomUUID(),
       userId: userSeed[0].id,
       ticketPrice: event.ticketPrice,
-    })).rejects.toThrowError()
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NonexistentEventError)
   })
 
   it('should not be able to subscribe with nonexistent user', async () => {
-    await expect(subscribeInEventUseCase({
+    const result = await subscribeInEventUseCase({
       eventId: event.id,
       userId: randomUUID(),
       ticketPrice: event.ticketPrice,
-    })).rejects.toThrowError()
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NonexistentUserError)
   })
 
   it('should not be able to subscribe in completed event', async () => {
-    await expect(subscribeInEventUseCase({
+    const result = await subscribeInEventUseCase({
       eventId: completedEvent.id,
       userId: userSeed[0].id,
       ticketPrice: completedEvent.ticketPrice,
-    })).rejects.toThrowError()
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(CompletedEventSubscriptionError)
   })
 
   it('should not be able to subscribe with negative ticket price', async () => {
-    await expect(subscribeInEventUseCase({
-      eventId: randomUUID(),
+    const result = await subscribeInEventUseCase({
+      eventId: event.id,
       userId: userSeed[0].id,
       ticketPrice: -10,
-    })).rejects.toThrowError()
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(InvalidTicketPriceError)
   })
 })

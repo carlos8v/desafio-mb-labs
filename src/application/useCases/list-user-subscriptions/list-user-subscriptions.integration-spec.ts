@@ -1,6 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 import { describe, it, expect, beforeAll } from 'vitest'
 
+import type { SubscriptionModel } from '@domain/Subscription'
+import { Subscription } from '@domain/Subscription'
+
 import { listUserSubscriptionsUseCaseFactory } from './list-user-subscriptions'
 
 import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscriptionRepository'
@@ -9,7 +12,6 @@ import { truncateDatabase } from '@tests/db/truncate'
 
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
-import { Subscription } from '@domain/Subscription'
 
 describe('List user subscriptions use case', () => {
   const [_, ...events] = eventSeed
@@ -33,7 +35,8 @@ describe('List user subscriptions use case', () => {
       userId: userSeed[0].id,
       createdAt: new Date(),
       ticketPrice: events[0].ticketPrice
-    })
+    }).value as SubscriptionModel
+
     await prisma.subscription.create({ data: subscription })
 
     const subscriptionList = await listUserSubscriptionsUseCase({ userId: userSeed[0].id })
@@ -49,7 +52,8 @@ describe('List user subscriptions use case', () => {
       userId: userSeed[0].id,
       createdAt: new Date(),
       ticketPrice: events[1].ticketPrice
-    })
+    }).value as SubscriptionModel
+
     await prisma.subscription.create({ data: newSubscription })
 
     const updatedSubscriptionList = await listUserSubscriptionsUseCase({ userId: userSeed[0].id })
