@@ -14,9 +14,14 @@ export const createUserControllerFactory: CreateUserController = ({
     try {
       const userData = createUserSchema.parse(req.body)
       const newUser = await createUserUseCase(userData)
-      return res.status(201).json(newUser)
+
+      if (newUser.isLeft()) {
+        return res.status(400).json(newUser.value)
+      }
+
+      return res.status(201).json(newUser.value)
     } catch (error) {
-      return res.status(400).json({ error })
+      return res.status(500).json({ error })
     }
   }
 }
