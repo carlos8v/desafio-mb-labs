@@ -1,5 +1,6 @@
 import type { Event as PrismaEvent } from '@prisma/client'
 
+import type { EventModel } from '@domain/Event'
 import { Event } from '@domain/Event'
 
 export const loadEventEntity = (event: PrismaEvent) => Event({
@@ -14,4 +15,4 @@ export const loadEventEntity = (event: PrismaEvent) => Event({
   place: event.place,
   link: event.link,
   createdAt: event.createdAt,
-})
+}).value as EventModel

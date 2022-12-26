@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { describe, it, expect, beforeAll } from 'vitest'
 
 import { findEventByIdUseCaseFactory } from './find-event-by-id'
+import { NonexistentEventError } from '@application/errors/nonexistent-event'
 
 import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
 
@@ -28,9 +29,12 @@ describe('Find event by title use case', () => {
     await prisma.event.create({ data: event })
   })
 
-  it('should return correct event info in lowercase title match', async () => {
+  it('should return correct event info', async () => {
     const result = await findEventByIdUseCase(event.id)
-    expect(result).toEqual(
+
+    expect(result.isLeft()).toBe(false)
+    expect(result.isRight()).toBe(true)
+    expect(result.value).toEqual(
       expect.objectContaining({
         id: event.id,
         title: event.title,
@@ -48,6 +52,10 @@ describe('Find event by title use case', () => {
   })
 
   it('should return empyt list in no title match', async () => {
-    await expect(findEventByIdUseCase(randomUUID())).rejects.toThrowError()
+    const result = await findEventByIdUseCase(randomUUID())
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isRight()).toBe(false)
+    expect(result.value).toBeInstanceOf(NonexistentEventError)
   })
 })
