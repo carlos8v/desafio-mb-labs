@@ -4,34 +4,34 @@ import type { SubscriptionRepository } from '@application/interfaces/subscriptio
 import type { EventModel } from '@domain/event'
 import type { SubscriptionModel } from '@domain/subscription'
 
-import type { ListEventSubscriptionsSchema } from './list-event-subscriptions-validator'
+import type { FindEventSubscriptionsSchema } from './find-event-subscriptions-validator'
 
-import { EventSubscriptionAuthError } from '@application/errors/event-subscriptions-auth'
+import { NotAuthorizedUserError } from '@application/errors/not-authorized-user'
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
 
 import type { Either } from '@domain/utils/either'
 import { left, right } from '@domain/utils/either'
 
-type ListEventSubscriptionsResponse = Either<
+type FindEventSubscriptionsResponse = Either<
   NonexistentEventError |
-  EventSubscriptionAuthError,
+  NotAuthorizedUserError,
   {
     event: EventModel
     subscriptions: SubscriptionModel[]
   }
 >
 
-type ListEventSubscriptionsUseCaseFactory = UseCase<
+type FindEventSubscriptionsUseCaseFactory = UseCase<
   {
     eventRepository: EventRepository
     subscriptionRepository: SubscriptionRepository
   },
-  ListEventSubscriptionsSchema,
-  Promise<ListEventSubscriptionsResponse>
+  FindEventSubscriptionsSchema,
+  Promise<FindEventSubscriptionsResponse>
 >
-export type ListEventSubscriptionsUseCase = ReturnType<ListEventSubscriptionsUseCaseFactory>
+export type FindEventSubscriptionsUseCase = ReturnType<FindEventSubscriptionsUseCaseFactory>
 
-export const listEventSubscriptionsUseCaseFactory: ListEventSubscriptionsUseCaseFactory = ({
+export const findEventSubscriptionsUseCaseFactory: FindEventSubscriptionsUseCaseFactory = ({
   eventRepository,
   subscriptionRepository
 }) => {
@@ -42,7 +42,7 @@ export const listEventSubscriptionsUseCaseFactory: ListEventSubscriptionsUseCase
     }
 
     if(event.createdBy !== userId) {
-      return left(new EventSubscriptionAuthError())
+      return left(new NotAuthorizedUserError())
     }
 
     const subscriptions = await subscriptionRepository.findManyByEventId(eventId)

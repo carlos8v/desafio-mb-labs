@@ -6,7 +6,7 @@ import type { SubscriptionModel } from '@domain/subscription'
 import { Subscription } from '@domain/subscription'
 import { User } from '@domain/user'
 
-import { listEventSubscriptionsUseCaseFactory } from './list-event-subscriptions'
+import { findEventSubscriptionsUseCaseFactory } from './find-event-subscriptions'
 
 import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/event-repository'
 import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscription-repository'
@@ -14,12 +14,12 @@ import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositori
 import { truncateDatabase } from '@tests/db/truncate'
 
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
-import { EventSubscriptionAuthError } from '@application/errors/event-subscriptions-auth'
+import { NotAuthorizedUserError } from '@application/errors/not-authorized-user'
 
 import { userSeed } from '@tests/db/seeds/user.seed'
 import { eventSeed } from '@tests/db/seeds/event.seed'
 
-describe('List event subscriptions use case', () => {
+describe('Find event subscriptions use case', () => {
   const [user] = userSeed
   const [_, event] = eventSeed
 
@@ -27,7 +27,7 @@ describe('List event subscriptions use case', () => {
   const prismaEventRepository = prismaEventRepositoryFactory(prisma)
   const prismaSubscriptionRepository = prismaSubscriptionRepositoryFactory(prisma)
 
-  const listUserSubscriptionsUseCase = listEventSubscriptionsUseCaseFactory({
+  const findEventSubscriptionsUseCase = findEventSubscriptionsUseCaseFactory({
     eventRepository: prismaEventRepository,
     subscriptionRepository: prismaSubscriptionRepository
   })
@@ -48,7 +48,7 @@ describe('List event subscriptions use case', () => {
 
     await prisma.subscription.create({ data: subscription })
 
-    const eventSubscriptions = await listUserSubscriptionsUseCase({
+    const eventSubscriptions = await findEventSubscriptionsUseCase({
       userId: user.id,
       eventId: event.id
     })
@@ -65,9 +65,9 @@ describe('List event subscriptions use case', () => {
 
     const newUser = User({
       name: 'Carlos Souza 2',
+      username: 'carlos8v2',
       email: 'carlos.pessoal2@hotmail.com',
-      password: '$2a$10$Kl/U71Kw1EpbYtuL5vkc7eeHTo9DKFNG6J.DklKmmD/wBYrRJBh16',
-      username: 'carlos8v2'
+      password: '$2a$10$Kl/U71Kw1EpbYtuL5vkc7eeHTo9DKFNG6J.DklKmmD/wBYrRJBh16'
     })
 
     const newSubscription = Subscription({
@@ -80,7 +80,7 @@ describe('List event subscriptions use case', () => {
     await prisma.user.create({ data: newUser })
     await prisma.subscription.create({ data: newSubscription })
 
-    const updatedEventSubscriptions = await listUserSubscriptionsUseCase({
+    const updatedEventSubscriptions = await findEventSubscriptionsUseCase({
       userId: user.id,
       eventId: event.id
     })
@@ -98,7 +98,7 @@ describe('List event subscriptions use case', () => {
   })
 
   it('should throw error if event does not exists', async () => {
-    const result = await listUserSubscriptionsUseCase({
+    const result = await findEventSubscriptionsUseCase({
       userId: user.id,
       eventId: randomUUID()
     })
@@ -109,13 +109,13 @@ describe('List event subscriptions use case', () => {
   })
 
   it('should not allow to see subscriptions of event created by other user', async () => {
-    const result = await listUserSubscriptionsUseCase({
+    const result = await findEventSubscriptionsUseCase({
       userId: randomUUID(),
       eventId: event.id
     })
 
     expect(result.isLeft()).toBe(true)
     expect(result.isRight()).toBe(false)
-    expect(result.value).toBeInstanceOf(EventSubscriptionAuthError)
+    expect(result.value).toBeInstanceOf(NotAuthorizedUserError)
   })
 })

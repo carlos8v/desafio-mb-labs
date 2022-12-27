@@ -99,8 +99,8 @@ describe('List user subscriptions route', () => {
     const token = jwt.sign({ id: '123' }, process.env.JWT_SECRET!, { algorithm: 'HS256', subject: '123' })
 
     const { body, status } = await supertest(app)
-    .get('/events/subscriptions')
-    .set('Authorization', `Bearer ${token}`)
+      .get('/events/subscriptions')
+      .set('Authorization', `Bearer ${token}`)
 
     expect(status).toBe(401)
     expect(body).toEqual(

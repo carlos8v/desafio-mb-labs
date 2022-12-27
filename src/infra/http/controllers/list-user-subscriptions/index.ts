@@ -18,7 +18,6 @@ const findAuthUserUseCase = findAuthUserUseCaseFactory({
   userRepository: prismaUserRepositoryFactory(prisma)
 })
 
-
 const listUserSubscriptionsUseCase = listUserSubscriptionsUseCaseFactory({
   subscriptionRepository: prismaSubscriptionRepositoryFactory(prisma)
 })

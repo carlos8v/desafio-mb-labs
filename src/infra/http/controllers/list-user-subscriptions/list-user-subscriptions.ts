@@ -3,7 +3,7 @@ import type { ListUserSubscriptionsUseCase } from '@application/useCases/list-us
 
 import { NotAuthorizedUserError } from '@application/errors/not-authorized-user'
 
-import { ok, badRequest, unauthorized } from '@infra/http/helpers/http-helper'
+import { ok, unauthorized } from '@infra/http/helpers/http-helper'
 
 type ListUserSubscriptionsController = Controller<{
   findAuthUserUseCase: FindAuthUserUseCase
