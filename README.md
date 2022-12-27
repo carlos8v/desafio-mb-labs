@@ -1,5 +1,35 @@
 # Desafio [MB Labs](https://www.linkedin.com/company/mblabs/)
 
+### Projeto 🚀
+
+Desenvolver aplicação backend completa utilizando typescript. A aplicação deve possuir validação de erros e deve ser possível realizar deploy com _docker_.
+
+- Prazo de entrega e apresentação: **27/12/2022 às 17:00**
+
+**Headline**:
+> "Olá, tudo bem? Estou procurando uma empresa para desenvolver um app de gestão de eventos, a ideia é ter algo que as pessoas possam utilizar para buscar e comprar ingressos para eventos de empresas e universidades. Qual nosso próximo passo?".
+
+---
+
+### Requisitos funcionais 🎯
+
+- [x] Usuário pode criar conta na aplicação
+- [x] Usuário pode realizar login na aplicação
+- [x] Usuários podem criar eventos com as seguintes informações:
+	- Título
+	- Subtítulo
+	- Descrição
+	- Data
+	- Valor da inscrição
+	- Preço
+	- Localização (opicional)
+	- Link da reunião (opicional)
+- [x] Usuários podem listar todos os eventos por data
+- [x] Usuários podem pesquisar eventos por nome
+- [x] Usuários podem visualizar informações de evento por identificador único
+- [x] Usuários podem visualizar inscrições de eventos que criaram
+- [x] Usuários podem listar todas as incrições submetidas
+
 ### Como testar 🔧️
 Clone o projeto e instale as dependências:
 ```bash
