@@ -8,6 +8,7 @@ export default defineConfig({
       adapter: 'psql',
       envFile: '.env.test'
     },
+    setupFiles: ['./tests/test-env.ts'],
     includeSource: ['./src/infra/**/*.spec.ts'],
     exclude: ['./src/domain', './src/application', 'node_modules'],
     alias: {

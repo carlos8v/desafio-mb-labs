@@ -1,12 +1,11 @@
 import { PrismaClient } from '@prisma/client'
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterEach } from 'vitest'
 
 import type { SubscriptionModel } from '@domain/subscription'
 import { Subscription } from '@domain/subscription'
 
 import { listUserSubscriptionsUseCaseFactory } from './list-user-subscriptions'
 
-import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/user-repository'
 import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscription-repository'
 
 import { truncateDatabase } from '@tests/db/truncate'
@@ -19,10 +18,8 @@ describe('List user subscriptions use case', () => {
 
   const prisma = new PrismaClient()
   const prismaSubscriptionRepository = prismaSubscriptionRepositoryFactory(prisma)
-  const prismaUserRepository = prismaUserRepositoryFactory(prisma)
   
   const listUserSubscriptionsUseCase = listUserSubscriptionsUseCaseFactory({
-    userRepository: prismaUserRepository,
     subscriptionRepository: prismaSubscriptionRepository
   })
 
@@ -30,6 +27,10 @@ describe('List user subscriptions use case', () => {
     await truncateDatabase(prisma)
     await prisma.user.create({ data: userSeed[0] })
     await prisma.event.createMany({ data: events })
+  })
+
+  afterEach(async () => {
+    await prisma.subscription.deleteMany({})
   })
 
   it('should filter correct user subscriptions', async () => {
@@ -42,9 +43,9 @@ describe('List user subscriptions use case', () => {
 
     await prisma.subscription.create({ data: subscription })
 
-    const subscriptionList = await listUserSubscriptionsUseCase({ userId: userSeed[0].id })
-    expect(subscriptionList.isRight()).toBe(true)
-    expect(subscriptionList.value).toEqual(
+    const subscriptionList = await listUserSubscriptionsUseCase(userSeed[0].id)
+    expect(subscriptionList.length).toBe(1)
+    expect(subscriptionList).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: events[0].id }),
       ])
@@ -59,13 +60,19 @@ describe('List user subscriptions use case', () => {
 
     await prisma.subscription.create({ data: newSubscription })
 
-    const updatedSubscriptionList = await listUserSubscriptionsUseCase({ userId: userSeed[0].id })
-    expect(updatedSubscriptionList.isRight()).toBe(true)
-    expect(updatedSubscriptionList.value).toEqual(
+    const updatedSubscriptionList = await listUserSubscriptionsUseCase(userSeed[0].id)
+    expect(updatedSubscriptionList.length).toBe(2)
+    expect(updatedSubscriptionList).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: events[0].id }),
         expect.objectContaining({ id: events[1].id }),
       ])
     )
+  })
+
+  it('should return empty list with nonexistent user', async () => {
+    const subscriptionList = await listUserSubscriptionsUseCase('123')
+    expect(subscriptionList.length).toBe(0)
+    expect(subscriptionList).toStrictEqual([])
   })
 })
