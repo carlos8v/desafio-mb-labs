@@ -40,12 +40,30 @@ npm install
 yarn install
 ```
 
+Você precisará de um banco de dados _postgres_, seja local ou na nuvem, disponível para poder executar a aplicação.
+
+Se você usa _docker_ então é possível copiar o arquivo `docker-compose.example.yml`.
+Com docker, execute o comando:
+
+```bash
+docker-compose up -d db
+```
+
 Crie um arquivo `.env` seguindo o exemplo do `.env.example`:
 
 ```env
 PORT=
 JWT_SECRET=
 DATABASE_URL=postgresql://mb-labs:mb-labs@localhost:5432/mb-labs?schema=public
+```
+
+Execute as migrações para o banco de dados com o comando:
+```bash
+# com npm
+npm run db:migrate
+
+# com yarn
+yarn db:migrate
 ```
 
 Para iniciar localmente o servidor rode o comando:
@@ -58,7 +76,7 @@ npm run dev
 yarn dev
 ```
 
-Se você utiliza _docker_ rode os seguintes comandos para iniciar localmente a aplicação
+Se você utiliza _docker_ rode os seguintes comandos para iniciar localmente a aplicação:
 
 ```bash
 docker build . -t carlos8v/desafio-mb-labs
@@ -80,15 +98,6 @@ yarn test:unit
 
 **Testes de integração e e2e:**
 
-Você precisará de um banco de dados _postgres_, seja local ou na nuvem, disponível para poder rodar os testes seguintes.
-
-Se você usa _docker_ então é possível copiar o arquivo `docker-compose.example.yml`.
-Com docker, execute o comando:
-
-```bash
-docker-compose up -d db
-```
-
 Crie um arquivo `.env` seguindo o formato:
 ```env
 DATABASE_HOST=localhost
@@ -97,6 +106,8 @@ DATABASE_NAME=mb-labs
 DATABASE_USER=mb-labs
 DATABASE_PASS=mb-labs
 ```
+
+> Lembre-se de iniciar seu banco antes de exexutar esses testes
 
 Execute o comando para os testes de integração:
 ```bash

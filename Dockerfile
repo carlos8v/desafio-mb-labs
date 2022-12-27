@@ -10,7 +10,7 @@ RUN npm ci --silent
 
 COPY ./src/ ./src
 COPY tsconfig*.json ./
-RUN npx prisma generate
+RUN npm run db:generate
 RUN npm run build
 RUN npm prune --production
 

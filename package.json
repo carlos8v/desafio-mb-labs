@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node dist/http/server.ts",
     "dev": "tsnd -r tsconfig-paths/register --transpile-only src/infra/http/server.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
     "test:unit": "vitest",
     "test:integration": "vitest -c vite-integration.config.ts",
     "test:e2e": "vitest -c vite-e2e.config.ts",
