@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import type { AuthService } from '@infra/http/interfaces/auth-service'
+import type { AuthService } from '@application/interfaces/auth-service'
 
 import { left, right } from '@domain/utils/either'
 
@@ -27,7 +27,14 @@ export const jwtAuthServiceFactory = ({
           algorithms: ['HS256']
         })
   
-        return right(payload)
+        if (!payload.sub || typeof payload.sub !== 'string') {
+          return left(new InvalidUserTokenError())
+        }
+
+        return right({
+          id: payload.sub,
+          ...(typeof payload === 'string' ? {} : payload)
+        })
       } catch (error) {
         return left(new InvalidUserTokenError())
       }

@@ -1,6 +1,6 @@
 import type { LoginUserUseCase } from '@application/useCases/login-user/login-user'
 import type { LoginUserValidator } from '@application/useCases/login-user/login-user-validator'
-import type { AuthService } from '@infra/http/interfaces/auth-service'
+import type { AuthService } from '@application/interfaces/auth-service'
 
 import { InvalidLoginError } from '@application/errors/invalid-login'
 

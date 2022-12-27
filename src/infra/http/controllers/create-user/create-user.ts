@@ -1,6 +1,6 @@
 import type { CreateUserUseCase } from '@application/useCases/create-user/create-user'
 import type { CreateUserValidator } from '@application/useCases/create-user/create-user-validator'
-import type { AuthService } from '@infra/http/interfaces/auth-service'
+import type { AuthService } from '@application/interfaces/auth-service'
 
 import { InvalidUserBodyError } from '@infra/http/errors/invalid-user-body'
 
