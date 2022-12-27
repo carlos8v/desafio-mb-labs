@@ -1,5 +1,5 @@
-import { prisma } from '@infra/db/prisma/prismaClient'
-import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
+import { prisma } from '@infra/db/prisma/prisma-client'
+import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/event-repository'
 
 import { listEventsByTitleUseCaseFactory } from '@application/useCases/list-events-by-title/list-events-by-title'
 

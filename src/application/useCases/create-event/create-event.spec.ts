@@ -6,8 +6,8 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import { createEventUseCaseFactory } from './create-event'
 import { NonexistentUserError } from '@application/errors/nonexistent-user'
 
-import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
-import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
+import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/event-repository'
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/user-repository'
 
 import { truncateDatabase } from '@tests/db/truncate'
 import { userSeed } from '@tests/db/seeds/user.seed'

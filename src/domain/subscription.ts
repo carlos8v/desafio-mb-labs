@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto'
-import { OptionalProps } from './utils/OptionalProps'
+import { OptionalProps } from './utils/optional-props'
 
-import type { Either } from './utils/Either'
-import { left, right } from './utils/Either'
+import type { Either } from './utils/either'
+import { left, right } from './utils/either'
 
 import { InvalidTicketPriceError } from './errors/invalid-ticket-price'
 

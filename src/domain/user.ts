@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 import { compare, hash } from 'bcrypt'
-import type { OptionalProps } from './utils/OptionalProps'
+import type { OptionalProps } from './utils/optional-props'
 
 export type UserModel = {
   id: string

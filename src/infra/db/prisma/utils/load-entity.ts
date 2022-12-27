@@ -3,11 +3,11 @@ import type {
   Subscription as PrismaSubscription
 } from '@prisma/client'
 
-import type { EventModel } from '@domain/Event'
-import { Event } from '@domain/Event'
+import type { EventModel } from '@domain/event'
+import { Event } from '@domain/event'
 
-import type { SubscriptionModel } from '@domain/Subscription'
-import { Subscription } from '@domain/Subscription'
+import type { SubscriptionModel } from '@domain/subscription'
+import { Subscription } from '@domain/subscription'
 
 export const loadEventEntity = (event: PrismaEvent) => Event({
   id: event.id,

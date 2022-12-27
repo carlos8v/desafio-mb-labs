@@ -1,16 +1,16 @@
-import type { EventRepository } from '@application/interfaces/EventRepository'
-import type { SubscriptionRepository } from '@application/interfaces/SubscriptionRepository'
+import type { EventRepository } from '@application/interfaces/event-repository'
+import type { SubscriptionRepository } from '@application/interfaces/subscription-repository'
 
-import type { EventModel } from '@domain/Event'
-import type { SubscriptionModel } from '@domain/Subscription'
+import type { EventModel } from '@domain/event'
+import type { SubscriptionModel } from '@domain/subscription'
 
 import type { ListEventSubscriptionsSchema } from './list-event-subscriptions-validator'
 
 import { EventSubscriptionAuthError } from '@application/errors/event-subscriptions-auth'
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
 
-import type { Either } from '@domain/utils/Either'
-import { left, right } from '@domain/utils/Either'
+import type { Either } from '@domain/utils/either'
+import { left, right } from '@domain/utils/either'
 
 type ListEventSubscriptionsResponse = Either<
   NonexistentEventError |

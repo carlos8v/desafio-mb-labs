@@ -1,5 +1,5 @@
-import { EventModel } from '@domain/Event'
-import { SubscriptionModel } from '@domain/Subscription'
+import { EventModel } from '@domain/event'
+import { SubscriptionModel } from '@domain/subscription'
 
 export interface SubscriptionRepository {
   save(subscriptionData: SubscriptionModel): Promise<void>

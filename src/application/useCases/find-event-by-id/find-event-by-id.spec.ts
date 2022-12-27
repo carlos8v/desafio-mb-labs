@@ -5,7 +5,7 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import { findEventByIdUseCaseFactory } from './find-event-by-id'
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
 
-import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
+import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/event-repository'
 
 import { truncateDatabase } from '@tests/db/truncate'
 

@@ -4,7 +4,7 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import { createUserUseCaseFactory } from './create-user'
 import { DuplicatedUsernameError } from '@application/errors/duplicated-username'
 
-import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/user-repository'
 
 import { truncateDatabase } from '@tests/db/truncate'
 

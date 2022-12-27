@@ -1,4 +1,4 @@
-import { Either } from '@domain/utils/Either'
+import { Either } from '@domain/utils/either'
 
 export type Payload = {
   id: string

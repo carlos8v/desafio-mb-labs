@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { app } from './app'
 import type { Server } from 'http'
 
-import { prisma } from '@infra/db/prisma/prismaClient'
+import { prisma } from '@infra/db/prisma/prisma-client'
 
 let server: Server
 

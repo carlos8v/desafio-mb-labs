@@ -1,4 +1,4 @@
-import { EventModel } from '@domain/Event'
+import { EventModel } from '@domain/event'
 
 export interface EventRepository {
   save(eventData: EventModel): Promise<void>

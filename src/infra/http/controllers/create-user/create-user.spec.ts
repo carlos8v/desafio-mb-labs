@@ -4,7 +4,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import supertest from 'supertest'
 import { app } from '@infra/http/app'
 
-import { User } from '@domain/User'
+import { User } from '@domain/user'
 
 import { DuplicatedUsernameError } from '@application/errors/duplicated-username'
 import { InvalidUserBodyError } from '@infra/http/errors/invalid-user-body'

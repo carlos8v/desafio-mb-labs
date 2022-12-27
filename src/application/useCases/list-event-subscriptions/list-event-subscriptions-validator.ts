@@ -5,4 +5,5 @@ export const listEventSubscriptionsSchema = z.object({
   eventId: z.string().uuid()
 })
 
+export type ListEventSubscriptionsValidator = typeof listEventSubscriptionsSchema
 export type ListEventSubscriptionsSchema = z.infer<typeof listEventSubscriptionsSchema>

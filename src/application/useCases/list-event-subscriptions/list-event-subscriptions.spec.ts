@@ -2,14 +2,14 @@ import { randomUUID } from 'crypto'
 import { PrismaClient } from '@prisma/client'
 import { describe, it, expect, beforeAll } from 'vitest'
 
-import type { SubscriptionModel } from '@domain/Subscription' 
-import { Subscription } from '@domain/Subscription'
-import { User } from '@domain/User'
+import type { SubscriptionModel } from '@domain/subscription' 
+import { Subscription } from '@domain/subscription'
+import { User } from '@domain/user'
 
 import { listEventSubscriptionsUseCaseFactory } from './list-event-subscriptions'
 
-import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
-import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscriptionRepository'
+import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/event-repository'
+import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscription-repository'
 
 import { truncateDatabase } from '@tests/db/truncate'
 

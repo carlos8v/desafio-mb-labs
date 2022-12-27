@@ -1,12 +1,12 @@
-import type { UserModel } from '@domain/User'
-import { User, hashPass } from '@domain/User'
+import type { UserModel } from '@domain/user'
+import { User, hashPass } from '@domain/user'
 
-import type { UserRepository } from '@application/interfaces/UserRepository'
+import type { UserRepository } from '@application/interfaces/user-repository'
 
 import type { CreateUserSchema } from './create-user-validator'
 
-import type { Either } from '@domain/utils/Either'
-import { left, right } from '@domain/utils/Either'
+import type { Either } from '@domain/utils/either'
+import { left, right } from '@domain/utils/either'
 import { DuplicatedUsernameError } from '@application/errors/duplicated-username'
 
 type CreateUserResponse = Either<

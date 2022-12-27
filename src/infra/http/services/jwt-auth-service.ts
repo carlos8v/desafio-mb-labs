@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
-import type { AuthService } from '@infra/http/interfaces/AuthService'
+import type { AuthService } from '@infra/http/interfaces/auth-service'
 
-import { left, right } from '@domain/utils/Either'
+import { left, right } from '@domain/utils/either'
 
 import { InvalidUserTokenError } from '../errors/invalid-user-token'
 

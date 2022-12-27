@@ -1,6 +1,6 @@
-import { prisma } from '@infra/db/prisma/prismaClient'
-import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
-import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/eventRepository'
+import { prisma } from '@infra/db/prisma/prisma-client'
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/user-repository'
+import { prismaEventRepositoryFactory } from '@infra/db/prisma/repositories/event-repository'
 
 import { createEventUseCaseFactory } from '@application/useCases/create-event/create-event'
 import { createEventSchema } from '@application/useCases/create-event/create-event-validator'

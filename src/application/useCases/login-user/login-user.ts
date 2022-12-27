@@ -1,12 +1,12 @@
-import type { UserRepository } from '@application/interfaces/UserRepository'
+import type { UserRepository } from '@application/interfaces/user-repository'
 
 import { InvalidLoginError } from '@application/errors/invalid-login'
 
-import type { UserModel } from '@domain/User'
-import { comparePassword } from '@domain/User'
+import type { UserModel } from '@domain/user'
+import { comparePassword } from '@domain/user'
 
-import type { Either } from '@domain/utils/Either'
-import { left, right } from '@domain/utils/Either'
+import type { Either } from '@domain/utils/either'
+import { left, right } from '@domain/utils/either'
 
 import type { LoginUserSchema } from './login-user-validator'
 

@@ -1,5 +1,5 @@
-import type { EventRepository } from '@application/interfaces/EventRepository'
-import { EventModel } from '@domain/Event'
+import type { EventRepository } from '@application/interfaces/event-repository'
+import { EventModel } from '@domain/event'
 
 type ListEventsByTitleUseCaseFactory = UseCase<
   { eventRepository: EventRepository },

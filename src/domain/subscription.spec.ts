@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { it, expect } from 'vitest'
 
-import { Subscription } from './Subscription'
+import { Subscription } from './subscription'
 
 import { InvalidTicketPriceError } from './errors/invalid-ticket-price'
 

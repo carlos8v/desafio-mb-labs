@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { it, expect } from 'vitest'
 
-import { Event } from './Event'
+import { Event } from './event'
 
 import { InvalidDueDateError } from './errors/invalid-due-date'
 import { InvalidTicketPriceError } from './errors/invalid-ticket-price'

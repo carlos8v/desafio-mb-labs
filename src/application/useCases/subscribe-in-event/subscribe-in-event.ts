@@ -1,12 +1,12 @@
-import type { SubscriptionModel } from '@domain/Subscription'
-import { Subscription } from '@domain/Subscription'
+import type { SubscriptionModel } from '@domain/subscription'
+import { Subscription } from '@domain/subscription'
 
-import type { EventRepository } from '@application/interfaces/EventRepository'
-import type { SubscriptionRepository } from '@application/interfaces/SubscriptionRepository'
-import type { UserRepository } from '@application/interfaces/UserRepository'
+import type { EventRepository } from '@application/interfaces/event-repository'
+import type { SubscriptionRepository } from '@application/interfaces/subscription-repository'
+import type { UserRepository } from '@application/interfaces/user-repository'
 
-import type { Either } from '@domain/utils/Either'
-import { left, right } from '@domain/utils/Either'
+import type { Either } from '@domain/utils/either'
+import { left, right } from '@domain/utils/either'
 
 import { InvalidTicketPriceError } from '@domain/errors/invalid-ticket-price'
 import { NonexistentUserError } from '@application/errors/nonexistent-user'

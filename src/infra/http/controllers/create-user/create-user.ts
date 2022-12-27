@@ -1,10 +1,10 @@
 import type { CreateUserUseCase } from '@application/useCases/create-user/create-user'
 import type { CreateUserValidator } from '@application/useCases/create-user/create-user-validator'
-import type { AuthService } from '@infra/http/interfaces/AuthService'
+import type { AuthService } from '@infra/http/interfaces/auth-service'
 
 import { InvalidUserBodyError } from '@infra/http/errors/invalid-user-body'
 
-import { badRequest, created, unprocessableEntity } from '@infra/http/helpers/httpHelper'
+import { badRequest, created, unprocessableEntity } from '@infra/http/helpers/http-helper'
 
 type CreateUserController = Controller<{
   authService: AuthService

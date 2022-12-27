@@ -2,7 +2,7 @@ import type { SubscribeInEventUseCase } from '@application/useCases/subscribe-in
 import type { SubscribeInEventValidator } from '@application/useCases/subscribe-in-event/subscribe-in-event-validator'
 import { InvalidSubscriptionBodyError } from '@infra/http/errors/invalid-subscription-body'
 
-import { badRequest, ok, unprocessableEntity } from '@infra/http/helpers/httpHelper'
+import { badRequest, ok, unprocessableEntity } from '@infra/http/helpers/http-helper'
 
 type SubscribeInEventController = Controller<{
   subscribeInEventUseCase: SubscribeInEventUseCase

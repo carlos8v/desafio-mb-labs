@@ -8,7 +8,7 @@ import { InvalidLoginError } from '@application/errors/invalid-login'
 import { truncateDatabase } from '@tests/db/truncate'
 
 import { userSeed } from '@tests/db/seeds/user.seed'
-import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/user-repository'
 
 describe('Login user use case', () => {
   const [user] = userSeed

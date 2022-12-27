@@ -1,13 +1,13 @@
-import type { EventModel } from '@domain/Event'
-import { Event } from '@domain/Event'
+import type { EventModel } from '@domain/event'
+import { Event } from '@domain/event'
 
-import type { EventRepository } from '@application/interfaces/EventRepository'
-import type { UserRepository } from '@application/interfaces/UserRepository'
+import type { EventRepository } from '@application/interfaces/event-repository'
+import type { UserRepository } from '@application/interfaces/user-repository'
 
 import type { CreateEventSchema } from './create-event-validator'
 
-import type { Either } from '@domain/utils/Either'
-import { left, right } from '@domain/utils/Either'
+import type { Either } from '@domain/utils/either'
+import { left, right } from '@domain/utils/either'
 
 import { InvalidDueDateError } from '@domain/errors/invalid-due-date'
 import { InvalidTicketPriceError } from '@domain/errors/invalid-ticket-price'

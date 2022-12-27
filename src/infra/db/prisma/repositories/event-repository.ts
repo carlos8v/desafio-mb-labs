@@ -1,11 +1,11 @@
 import type { PrismaClient } from '@prisma/client'
-import type { EventRepository } from '@application/interfaces/EventRepository'
+import type { EventRepository } from '@application/interfaces/event-repository'
 
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc)
 
-import { loadEventEntity } from '../utils/loadEntity'
+import { loadEventEntity } from '../utils/load-entity'
 
 export const prismaEventRepositoryFactory: (prisma: PrismaClient) => EventRepository = (prisma) => ({
   save: async (eventData) => {

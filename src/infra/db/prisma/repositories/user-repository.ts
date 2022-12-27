@@ -1,7 +1,7 @@
 import type { PrismaClient } from '@prisma/client'
-import type { UserRepository } from '@application/interfaces/UserRepository'
+import type { UserRepository } from '@application/interfaces/user-repository'
 
-import { User } from '@domain/User'
+import { User } from '@domain/user'
 
 export const prismaUserRepositoryFactory: (prisma: PrismaClient) => UserRepository = (prisma) => ({
   save: async (userData) => {

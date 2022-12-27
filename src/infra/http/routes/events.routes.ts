@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { expressRouteAdapter } from '../adapters/expressRouteAdapter'
+import { expressRouteAdapter } from '../adapters/express-route-adapter'
 
 import { createEventController } from '../controllers/create-event'
 import { findEventByIdController } from '../controllers/find-event-by-id'

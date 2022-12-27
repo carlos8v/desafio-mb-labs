@@ -1,7 +1,7 @@
 import type { PrismaClient } from '@prisma/client'
-import type { SubscriptionRepository } from '@application/interfaces/SubscriptionRepository'
+import type { SubscriptionRepository } from '@application/interfaces/subscription-repository'
 
-import { loadEventEntity, loadSubscriptionEntity } from '../utils/loadEntity'
+import { loadEventEntity, loadSubscriptionEntity } from '../utils/load-entity'
 
 export const prismaSubscriptionRepositoryFactory: (prisma: PrismaClient) => SubscriptionRepository = (prisma) => ({
   save: async (subscriptionData) => {

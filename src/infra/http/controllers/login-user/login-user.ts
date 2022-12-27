@@ -1,10 +1,10 @@
 import type { LoginUserUseCase } from '@application/useCases/login-user/login-user'
 import type { LoginUserValidator } from '@application/useCases/login-user/login-user-validator'
-import type { AuthService } from '@infra/http/interfaces/AuthService'
+import type { AuthService } from '@infra/http/interfaces/auth-service'
 
 import { InvalidLoginError } from '@application/errors/invalid-login'
 
-import { ok, badRequest, unprocessableEntity } from '@infra/http/helpers/httpHelper'
+import { ok, badRequest, unprocessableEntity } from '@infra/http/helpers/http-helper'
 
 type LoginUserController = Controller<{
   authService: AuthService

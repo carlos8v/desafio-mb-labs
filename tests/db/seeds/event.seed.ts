@@ -1,5 +1,5 @@
-import type { EventModel,CreateEventProps } from '@domain/Event'
-import { Event } from '@domain/Event'
+import type { EventModel,CreateEventProps } from '@domain/event'
+import { Event } from '@domain/event'
 
 const generateEvent = (props: CreateEventProps) => {
   const newEvent = Event(props)

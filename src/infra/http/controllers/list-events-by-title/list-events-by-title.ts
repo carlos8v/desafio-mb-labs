@@ -1,7 +1,7 @@
 import type { ListEventsByTitleValidator } from './list-events-by-title-validator'
 import type { ListEventsByTitleUseCase } from '@application/useCases/list-events-by-title/list-events-by-title'
 
-import { ok } from '@infra/http/helpers/httpHelper'
+import { ok } from '@infra/http/helpers/http-helper'
 
 type ListEventsByTitleController = Controller<{
   listEventsByTitleUseCase: ListEventsByTitleUseCase

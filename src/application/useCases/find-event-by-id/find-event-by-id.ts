@@ -1,10 +1,10 @@
-import type { EventRepository } from '@application/interfaces/EventRepository'
-import type { EventModel } from '@domain/Event'
+import type { EventRepository } from '@application/interfaces/event-repository'
+import type { EventModel } from '@domain/event'
 
 import { NonexistentEventError } from '@application/errors/nonexistent-event'
 
-import type { Either } from '@domain/utils/Either'
-import { left, right } from '@domain/utils/Either'
+import type { Either } from '@domain/utils/either'
+import { left, right } from '@domain/utils/either'
 
 type FindEventByIdResponse = Either<
   NonexistentEventError,

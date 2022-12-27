@@ -1,5 +1,5 @@
-import type { EventModel } from '@domain/Event'
-import type { EventRepository } from '@application/interfaces/EventRepository'
+import type { EventModel } from '@domain/event'
+import type { EventRepository } from '@application/interfaces/event-repository'
 
 type ListEventsByDateRequest = {
   startDate?: Date | null

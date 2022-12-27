@@ -1,5 +1,5 @@
-import type { UserModel } from '@domain/User'
-import { User } from '@domain/User'
+import type { UserModel } from '@domain/user'
+import { User } from '@domain/user'
 
 export const userSeed: UserModel[] = [
   User({

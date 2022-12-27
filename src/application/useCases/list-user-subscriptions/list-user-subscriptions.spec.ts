@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 import { describe, it, expect, beforeAll } from 'vitest'
 
-import type { SubscriptionModel } from '@domain/Subscription'
-import { Subscription } from '@domain/Subscription'
+import type { SubscriptionModel } from '@domain/subscription'
+import { Subscription } from '@domain/subscription'
 
 import { listUserSubscriptionsUseCaseFactory } from './list-user-subscriptions'
 
-import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/userRepository'
-import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscriptionRepository'
+import { prismaUserRepositoryFactory } from '@infra/db/prisma/repositories/user-repository'
+import { prismaSubscriptionRepositoryFactory } from '@infra/db/prisma/repositories/subscription-repository'
 
 import { truncateDatabase } from '@tests/db/truncate'
 
