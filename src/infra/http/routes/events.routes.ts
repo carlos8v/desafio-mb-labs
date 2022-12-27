@@ -4,12 +4,12 @@ import { expressRouteAdapter } from '../adapters/expressRouteAdapter'
 
 import { createEventController } from '../controllers/create-event'
 import { findEventByIdController } from '../controllers/find-event-by-id'
-import { listEventByTitleController } from '../controllers/list-event-by-title'
+import { listEventsByTitleController } from '../controllers/list-events-by-title'
 import { subscribeInEventController } from '../controllers/subscribe-in-event'
 
 export const eventsRouter = Router()
 
 eventsRouter.post('/', expressRouteAdapter(createEventController))
-eventsRouter.get('/search/title', expressRouteAdapter(listEventByTitleController))
+eventsRouter.get('/search/title', expressRouteAdapter(listEventsByTitleController))
 eventsRouter.get('/:eventId', expressRouteAdapter(findEventByIdController))
 eventsRouter.post('/:eventId/subscribe', expressRouteAdapter(subscribeInEventController))

@@ -3,12 +3,12 @@ import type { ListEventsByTitleUseCase } from '@application/useCases/list-events
 
 import { ok } from '@infra/http/helpers/httpHelper'
 
-type ListEventByTitleController = Controller<{
+type ListEventsByTitleController = Controller<{
   listEventsByTitleUseCase: ListEventsByTitleUseCase
   listEventsByTitleSchema: ListEventsByTitleValidator
 }>
 
-export const listEventByTitleControllerFactory:ListEventByTitleController = ({
+export const listEventsByTitleControllerFactory:ListEventsByTitleController = ({
   listEventsByTitleSchema,
   listEventsByTitleUseCase
 }) => {
